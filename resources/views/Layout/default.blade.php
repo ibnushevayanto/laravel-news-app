@@ -10,6 +10,12 @@
 </head>
 
 <body>
+
+    <ul>
+    <li><a href="{{ route('landing') }}">Home</a></li>
+    <li><a href="{{ route('contact') }}">Contact</a></li>
+    </ul>
+
     @yield('content')
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
