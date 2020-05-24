@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('', 'PageController@landing')->name('landing');
 
 Route::get('contact', 'PageController@contact')->name('contact');
+
+Route::resource('blogpost', 'BlogPostController');

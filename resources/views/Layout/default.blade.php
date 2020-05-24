@@ -11,10 +11,23 @@
 
 <body>
 
-    <ul>
-    <li><a href="{{ route('landing') }}">Home</a></li>
-    <li><a href="{{ route('contact') }}">Contact</a></li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ route('landing') }}">ibnushevayanto</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link {{(Illuminate\Support\Facades\Route::currentRouteName() == 'landing') ? 'active' : ''}}"
+                    href="{{route('landing')}}">Home </a>
+                <a class="nav-item nav-link {{(Illuminate\Support\Facades\Route::currentRouteName() == 'contact') ? 'active' : ''}}"
+                    href="{{ route('contact') }}">Contact</a>
+                <a class="nav-item nav-link {{ (in_array('blogpost', explode('.', Illuminate\Support\Facades\Route::currentRouteName()))) ? 'active' : '' }}"
+                    href="{{ route('blogpost.index') }}">Blog</a>
+            </div>
+        </div>
+    </nav>
 
     @yield('content')
     <script src="{{ asset('js/app.js') }}"></script>
