@@ -22,6 +22,9 @@
                             <label for="contentInput">Content</label>
                             <textarea class="form-control" id="contentInput" rows="3"></textarea>
                         </div>
+                        <div class="text-right">
+                            <button class="btn btn-primary btn-block">Simpan</button>
+                        </div>
                     </form>
                 </div>
             </div>
