@@ -35,7 +35,11 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $blogpost = new BlogPosts();
+        $blogpost->title = $request->post('title');
+        $blogpost->content = $request->post('content');
+        $blogpost->save();
+        return redirect()->route('blogpost.show', ['blogpost' => $blogpost->id]);
     }
 
     /**

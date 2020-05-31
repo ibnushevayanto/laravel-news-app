@@ -13,17 +13,18 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-8">
-                    <form action="#">
+                <form action="{{ route('blogpost.store') }}" method="post">
+                    @csrf
                         <div class="form-group">
                             <label for="titleInput">Title</label>
-                            <input type="text" class="form-control" id="titleInput" placeholder="Title">
+                            <input type="text" class="form-control" id="titleInput" name="title" placeholder="Title">
                         </div>
                         <div class="form-group">
                             <label for="contentInput">Content</label>
-                            <textarea class="form-control" id="contentInput" rows="3"></textarea>
+                            <textarea class="form-control" id="contentInput" rows="3" name="content" placeholder="Content"></textarea>
                         </div>
                         <div class="text-right">
-                            <button class="btn btn-primary btn-block">Simpan</button>
+                            <button class="btn btn-primary btn-block" type="submit">Simpan</button>
                         </div>
                     </form>
                 </div>
