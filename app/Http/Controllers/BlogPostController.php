@@ -61,7 +61,8 @@ class BlogPostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('BlogPost.editblogpost', ['blogpost' => BlogPosts::findOrFail($id)]);
+
     }
 
     /**
