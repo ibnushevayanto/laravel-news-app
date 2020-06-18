@@ -35,10 +35,23 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
+
+        /*
+        ? Validasi Form Sederhana Tanpa Membuat File Request
+         */
+
+        $validatedData = $request->validate([
+            'title' => 'required|max:100',
+            'content' => 'required',
+        ]);
+
         $blogpost = new BlogPosts();
         $blogpost->title = $request->post('title');
         $blogpost->content = $request->post('content');
         $blogpost->save();
+
+        $request->session()->flash('status', 'News Was Created!');
+
         return redirect()->route('blogpost.show', ['blogpost' => $blogpost->id]);
     }
 

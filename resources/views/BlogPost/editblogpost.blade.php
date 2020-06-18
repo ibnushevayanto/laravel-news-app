@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-8">
-                    <form action="{{ route('blogpost.update') }}" method="post">
+                    <form action="{{ route('blogpost.update', ['blogpost' => $blogpost->id]) }}" method="post">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
