@@ -14,4 +14,8 @@ class PageController extends Controller
         return view('Contact.contact');
 
     }
+    public function test($id, $naga)
+    {
+        dd(['id' => $id, 'naga' => $naga]);
+    }
 }

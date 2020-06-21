@@ -30,10 +30,14 @@
                             <p class="review-text">
                                 {{ $item->content }}
                             </p>
-                            <button class="avatar btn btn-danger btn-sm"
-                                style="position: absolute; top: -10px; right: -10px;">
-                                <i class="fa fa-times"></i>
-                            </button>
+                            <form action="{{route('blogpost.destroy', ['blogpost' => $item->id])}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="avatar btn btn-danger btn-sm" type="submit"
+                                    style="position: absolute; top: -10px; right: -10px;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </form>
                     </div>
                 </div>
                 @empty

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BlogPosts;
+use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 
 class BlogPostController extends Controller
@@ -33,22 +34,28 @@ class BlogPostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
 
         /*
         ? Validasi Form Sederhana Tanpa Membuat File Request
+        ? Bail Akan Menampilkan Validation Error Satu Satu
          */
 
-        $validatedData = $request->validate([
-            'title' => 'required|max:100',
-            'content' => 'required',
-        ]);
+        // * Kode
 
-        $blogpost = new BlogPosts();
-        $blogpost->title = $request->post('title');
-        $blogpost->content = $request->post('content');
-        $blogpost->save();
+        // $validatedData = $request->validate([
+        //     'title' => 'bail|required|max:100',
+        //     'content' => 'bail|required',
+        // ]);
+
+        /*
+        ? End Of Request Validation
+         */
+
+        $validatedData = $request->validated();
+
+        $blogpost = BlogPosts::create($validatedData);
 
         $request->session()->flash('status', 'News Was Created!');
 
@@ -56,9 +63,10 @@ class BlogPostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specifie
+     * ''\d resource.
      *
-     * @param  int  $id
+     * @param  int  $id\[po]
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -75,7 +83,6 @@ class BlogPostController extends Controller
     public function edit($id)
     {
         return view('BlogPost.editblogpost', ['blogpost' => BlogPosts::findOrFail($id)]);
-
     }
 
     /**
@@ -85,9 +92,14 @@ class BlogPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        //
+        $dataValidated = $request->validated();
+
+        $blogpost = BlogPosts::whereId($id)->update($dataValidated);
+
+        $request->session()->flash('status', 'News Was Edited!');
+        return redirect()->route('blogpost.show', ['blogpost' => $id]);
     }
 
     /**
@@ -96,8 +108,11 @@ class BlogPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $blogpost = BlogPosts::findOrFail($id);
+        $request->session()->flash('status', $blogpost->title . ' was deleted');
+        $blogpost->delete();
+        return redirect()->route('blogpost.index');
     }
 }
