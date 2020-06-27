@@ -29,10 +29,7 @@ class BlogPostTest extends TestCase
         ? This Is Arrange Part
         */
 
-        $post = new BlogPosts();
-        $post->title = 'New Title';
-        $post->content = 'Content of the blog post';
-        $post->save();
+        $post = $this->_createDummy();
 
         /* 
         ? Act Part
@@ -51,7 +48,7 @@ class BlogPostTest extends TestCase
         */
 
         $this->assertDatabaseHas('blog_posts', [
-            'title' => 'New Title'
+            'title' => $post->title
         ]);
     }
 
@@ -88,33 +85,56 @@ class BlogPostTest extends TestCase
 
     public function testUpdateIsValid()
     {
+        $post = $this->_createDummy();
+
+        $this->assertDatabaseHas('blog_posts', [
+            'title' => $post->title
+        ]);
+
+        $newParams = [
+            'title' => 'Changed Title',
+            'content' => 'Changed Content'
+        ];
+
+        $this->put("/blogpost/{$post->id}", $newParams)
+            ->assertStatus(302)
+            ->assertSessionHas('status');
+
+        $this->assertEquals(session('status'), 'News Was Edited!');
+
+        /*
+            ? Bila Data Ilang Dari Database
+        */
+
+        $this->assertDatabaseMissing('blog_posts', ['title' => $post->title]);
+    }
+
+    public function testDeleteBlogPost()
+    {
+        $post = $this->_createDummy();
+
+        $title = $post->title;
+
+        $this->delete("/blogpost/{$post->id}")
+            ->assertStatus(302)
+            ->assertSessionHas('status');
+
+        $this->assertEquals(session('status'), $title . ' was deleted');
+
+        $this->assertDatabaseMissing('blog_posts', ['title' => $title]);
+    }
+
+    /* 
+        ? Disamping Nama Function Itu Adalah Tipe Data
+    */
+
+    private function _createDummy(): BlogPosts
+    {
         $post = new BlogPosts();
         $post->title = 'New Title';
         $post->content = 'Content of the blog post';
         $post->save();
 
-        $this->assertDatabaseHas('blog_posts', [
-            'id' => $post->id,
-            'created_at' => $post->created_at,
-            'updated_at' => $post->updated_at,
-            'title' => $post->title,
-            'content' => $post->content
-        ]);
-
-        $newParams = [
-            'title' => 'Changed Title',
-            'Content' => 'Changed Content'
-        ];
-
-        $this->put("/blogpost/{$post->id}", $newParams)
-            ->assertStatus(302);
-
-        // $this->assertDatabaseMissing('blog_posts', [
-        //     'id' => $post->id,
-        //     'created_at' => $post->created_at,
-        //     'updated_at' => $post->updated_at,
-        //     'title' => $post->title,
-        //     'content' => $post->content
-        // ]);
+        return $post;
     }
 }
