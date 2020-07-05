@@ -8,7 +8,7 @@ use App\BlogPosts;
 class Comment extends Model
 {
     /*
-        ? Nama Function Sesuaikan Dengan ForeignKey | blogPost = blog_post_id |
+        ? Nama Function Sesuaikan Dengan ForeignKey | Example Pada Nama FUnction Dibawah Ini blogPost = blog_post_id |
     */
     public function blogPost()
     {
@@ -20,6 +20,6 @@ class Comment extends Model
             ? $this->belongsTo(BlogPosts::class, 'foreign_key', 'primary_key')
         */
 
-        return $this->belongsTo(BlogPosts::class);
+        return $this->belongsTo(BlogPosts::class, 'blog_post_id', 'id');
     }
 }

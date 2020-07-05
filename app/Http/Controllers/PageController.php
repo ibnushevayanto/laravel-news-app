@@ -18,13 +18,3 @@ class PageController extends Controller
         dd(['id' => $id, 'naga' => $naga]);
     }
 }
-
-/*
-
-    * Note Mengenai Relation One To One : 
-
-    ! One To One Relationship Memasukkan Data : 
-    ! 1. $author->profile()->save($profile);
-    ! 2. $profile->author()->associate($author)->save();
-
-*/
