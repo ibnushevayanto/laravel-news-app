@@ -42,6 +42,7 @@ class BlogPostTest extends TestCase
         */
 
         $response->assertSeeText('New Title');
+        // $response->assertSeeText('Not have a comments');
 
         /*
         ? Untuk check Sebuah Database Dengan Data Spesifik
