@@ -2,6 +2,8 @@
 
 /*
 
+    * +++ QUERY RELATIONSHIP +++
+
     * Note Mengenai Relation [One To One] And [One To Many] : 
 
     ? Relationship Insert Data
@@ -36,4 +38,14 @@
     !    $query->where('content', 'like', '%abc%'); 
     ! })->get();
     
+    // =======================================================================================================================
+    
+    * Note Mengenai withCount
+
+    ? Menampilkan Jumlah Komentar
+    ! BlogPosts::withCount(['comments as jumlah_komentar'])->get();
+
+    ? Menampilkan Jumlah Komentar Semuanya Dan Terbaru
+    ! BlogPosts::withCount(['comments as jumlah_komentar', 'comments as komentar_terbaru' => function($query){ $query->where('created_at', '>=', '2020-07-08 12:13:07'); }])->get();
+
 */

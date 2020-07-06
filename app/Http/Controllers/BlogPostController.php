@@ -15,7 +15,7 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        return view('BlogPost.daftarblogpost', ['blogpost' => BlogPosts::all()]);
+        return view('BlogPost.daftarblogpost', ['blogpost' => BlogPosts::withCount(['comments as jumlah_komentar'])->get()]);
     }
 
     /**

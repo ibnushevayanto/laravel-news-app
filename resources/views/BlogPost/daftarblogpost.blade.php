@@ -23,6 +23,7 @@
                         </a> <a href="{{ route('blogpost.edit', ['blogpost' => $item->id]) }}">
                             <i class="fa fa-edit"></i> Edit
                         </a>
+
                         @if ((new Carbon\Carbon())->diffInMinutes($item->created_at) <= 5) <span
                             class="badge badge-success"><strong>New!</strong></span>
                             @endif
@@ -30,6 +31,15 @@
                             <p class="review-text">
                                 {{ $item->content }}
                             </p>
+                            @if ($item->jumlah_komentar > 0)
+                            <p class="text-muted">
+                                <small>{{ $item->jumlah_komentar }} Komentar</small>
+                            </p>
+                            @else
+                            <p class="text-muted">
+                                <small>Not have a comments</small>
+                            </p>
+                            @endif
                             <form action="{{route('blogpost.destroy', ['blogpost' => $item->id])}}" method="post">
                                 @csrf
                                 @method('DELETE')
