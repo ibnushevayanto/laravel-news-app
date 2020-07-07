@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\BlogPosts;
+use App\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -131,11 +132,19 @@ class BlogPostTest extends TestCase
 
     private function _createDummy(): BlogPosts
     {
-        $post = new BlogPosts();
-        $post->title = 'New Title';
-        $post->content = 'Content of the blog post';
-        $post->save();
+        return factory(BlogPosts::class)->states('new-blogpost-test')->create();
+    }
 
-        return $post;
+    public function testPostSeeComment()
+    {
+        $post = $this->_createDummy();
+
+        factory(Comment::class, 4)->create([
+            'blog_post_id' => $post->id
+        ]);
+
+        $response = $this->get('/blogpost');
+
+        $response->assertSeeText('4 Komentar');
     }
 }

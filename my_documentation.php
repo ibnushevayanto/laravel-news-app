@@ -48,4 +48,13 @@
     ? Menampilkan Jumlah Komentar Semuanya Dan Terbaru
     ! BlogPosts::withCount(['comments as jumlah_komentar', 'comments as komentar_terbaru' => function($query){ $query->where('created_at', '>=', '2020-07-08 12:13:07'); }])->get();
 
+    * +++ MODEL FACTORY +++
+    
+    ? Cara Membuat Factory
+    ! php artisan make:factory CommentFactory --model=Comment
+    ! factory berada di folder database/factories
+
+    ? Contoh Cara Memanggil Factory
+    ! factory(App\Comment::class)->create(['blog_post_id' => 2]);
+
 */
