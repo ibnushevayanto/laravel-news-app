@@ -71,7 +71,7 @@ class BlogPostController extends Controller
      */
     public function show($id)
     {
-        return view('BlogPost.detailblogpost', ['blogpost' => BlogPosts::findOrFail($id)]);
+        return view('BlogPost.detailblogpost', ['blogpost' => BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id)]);
     }
 
     /**

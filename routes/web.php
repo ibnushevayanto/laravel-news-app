@@ -38,3 +38,7 @@ Route::get('contact', 'PageController@contact')->name('contact');
  */
 
 Route::resource('blogpost', 'BlogPostController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

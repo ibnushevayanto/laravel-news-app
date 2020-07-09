@@ -28,6 +28,8 @@
                     href="{{ route('contact') }}">Contact</a>
                 <a class="nav-item nav-link {{ (in_array('blogpost', explode('.', Illuminate\Support\Facades\Route::currentRouteName()))) ? 'active' : '' }}"
                     href="{{ route('blogpost.index') }}">Blog</a>
+                <a class="nav-item nav-link {{(Illuminate\Support\Facades\Route::currentRouteName() == 'register') ? 'active' : ''}}"
+                    href="{{route('register')}}">Register</a>
             </div>
         </div>
     </nav>
