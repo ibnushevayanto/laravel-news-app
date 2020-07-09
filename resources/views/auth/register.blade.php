@@ -49,9 +49,11 @@
                         </div>
                         @endif
                     </div>
-                    {{-- <div class="d-flex justify-content-end"> --}}
+
                     <button class="btn btn-block btn-outline-primary my-3">Register</button>
-                    {{-- </div> --}}
+
+                    <div class="text-center">Sudah punya akun? Silahkan login <a href="{{ route('login') }}">disini</a>
+                    </div>
                 </form>
             </div>
         </div>
