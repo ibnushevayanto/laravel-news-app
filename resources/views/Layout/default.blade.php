@@ -59,7 +59,8 @@
                 @else
 
                 {{-- Logout --}}
-                <a href="#" class="nav-item nav-link" onclick="logout('{{route('login')}}')">Logout</a>
+                <a href="#" class="nav-item nav-link" onclick="logout('{{route('login')}}')">Logout
+                    ({{ Auth::user()->name }})</a>
 
                 <form action="{{ route('logout') }}" method="POST" id="logout-proccess" style="display: none;">
                     @csrf

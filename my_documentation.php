@@ -57,4 +57,19 @@
     ? Contoh Cara Memanggil Factory
     ! factory(App\Comment::class)->create(['blog_post_id' => 2]);
 
+    * +++ Authentication +++
+        
+    * Sebelum Menggunakan Wajib Menggunakan Facade : 
+    ! use Illuminate\Support\Facades\Auth;
+
+    * Untuk Mendapatkan ID Dari User Menggunakan : 
+    ! Auth::id();
+
+    * Untuk Mendapatkan Semua Data User Menggunakan : 
+    ! Auth::user(); example :
+    ! Auth::user()->email;
+
+    * Untuk Mengecheck Apakah Sudah Melakukan Autentikasi Menggunakan : 
+    ! Auth::check();
+    ? Menghasilkan Nilai TRUE / FALSE
 */

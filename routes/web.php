@@ -19,26 +19,34 @@ Route::get('contact', 'PageController@contact')->name('contact');
 
 /*
 ? Menggunakan Parameter
-! Route::get('test/{id}/{naga}', 'PageController@test')->name('test');
+* Route::get('test/{id}/{naga}', 'PageController@test')->name('test');
  */
 
-/* *
+/* 
 ? Routing Group
- * Route::prefix('test')->group(function () {
- *   Route::get('', function () {
- *       echo "test";
- *   });
- *   Route::get('makimura', function () {
- *       echo "Makimura";
- *   });
- *   Route::get('shouka/{id}', function ($id) {
- *       echo $id;
- *   });
- * });
+    * Route::prefix('test')->group(function () {
+    *   Route::get('', function () {
+    *       echo "test";
+    *   });
+    *   Route::get('makimura', function () {
+    *       echo "Makimura";
+    *   });
+    *   Route::get('shouka/{id}', function ($id) {
+    *       echo $id;
+    *   });
+    * });
  */
 
 Route::resource('blogpost', 'BlogPostController');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/* 
+    ? Cara Mengamankan Route
+
+    * 1. Dengan Menggunakan Atribut Middleware Langsung Pada Route. contoh : 
+    ! Route::resource('blogpost', 'BlogPostController')->middleware('auth');
+    
+    * 2. Dengan Menggunakan Controller. 
+    ! contoh bisa dicheck di BlogPostController.php
+*/

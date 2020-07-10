@@ -8,6 +8,21 @@ use Illuminate\Http\Request;
 
 class BlogPostController extends Controller
 {
+
+    public function __construct()
+    {
+        /* 
+            * Cara Mengamankan Route Dengan Menggunakan Controller
+            ? Attribute Yang Bisa Digunakan Ialah 
+            ! only([]) dan except([])
+
+            * contoh penggunaan
+            ! $this->middleware('auth')->only(['create', 'store]);
+        */
+
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
