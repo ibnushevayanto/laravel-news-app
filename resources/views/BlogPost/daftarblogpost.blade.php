@@ -24,9 +24,11 @@
                             <i class="fa fa-edit"></i> Edit
                         </a>
 
+                        {{--  Conditional Jika Waktu Koten Dibuat Kurang Dari 5 Menit  --}}
                         @if ((new Carbon\Carbon())->diffInMinutes($item->created_at) <= 5) <span
                             class="badge badge-success"><strong>New!</strong></span>
                             @endif
+                            {{-- diffForHumans() untuk merubah waktu dari aneh menjadi format yang bisa dibaca manusia --}}
                             <p class="text-muted">{{ $item->created_at->diffForHumans() }}</p>
                             <p class="review-text">
                                 {{ $item->content }}
@@ -42,6 +44,7 @@
                             @endif
                             <form action="{{route('blogpost.destroy', ['blogpost' => $item->id])}}" method="post">
                                 @csrf
+                                {{-- Jika Method Tidak Tersedia Pada HTML gunakan @method --}}
                                 @method('DELETE')
                                 <button class="avatar btn btn-danger btn-sm" type="submit"
                                     style="position: absolute; top: -10px; right: -10px;">

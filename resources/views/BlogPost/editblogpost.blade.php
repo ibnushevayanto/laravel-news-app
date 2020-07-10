@@ -21,7 +21,7 @@
                     <form action="{{ route('blogpost.update', ['blogpost' => $blogpost->id]) }}" method="post">
                         @csrf
                         @method('PUT')
-
+                        {{-- Menggunakan Satu Component Yang Sama --}}
                         @include('Layout._form_blog')
                     </form>
                 </div>

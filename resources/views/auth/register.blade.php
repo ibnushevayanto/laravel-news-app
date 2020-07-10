@@ -38,6 +38,7 @@
                                     placeholder="Enter your password">
                             </div>
                             <div class="col-md-6">
+                                {{-- Jika Ingin Membuat Validasi Password Gunakan Kata Kata confirmation diakhir dari nama field yang ingin diberi konfirmasi --}}
                                 <input type="password" name="password_confirmation"
                                     class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                                     placeholder="Confirm password">
