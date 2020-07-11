@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\BlogPosts;
 use App\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class BlogPostTest extends TestCase
@@ -61,6 +60,13 @@ class BlogPostTest extends TestCase
             'content' => 'Valid Content'
         ];
 
+        /* 
+            ? Cara testCase untuk methods yang ada middleware authnya
+            * Code bisa langsung digabung lihat contoh di testValidationIsWork()
+        */
+        $user = $this->user();
+        $this->actingAs($user);
+
         $this->post('/blogpost', $params)
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -75,7 +81,7 @@ class BlogPostTest extends TestCase
             'content' => null
         ];
 
-        $this->post('/blogpost', $params)
+        $this->actingAs($this->user())->post('/blogpost', $params)
             ->assertStatus(302)
             ->assertSessionHas('errors');
 
@@ -98,6 +104,9 @@ class BlogPostTest extends TestCase
             'content' => 'Changed Content'
         ];
 
+        $user = $this->user();
+        $this->actingAs($user);
+
         $this->put("/blogpost/{$post->id}", $newParams)
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -116,6 +125,9 @@ class BlogPostTest extends TestCase
         $post = $this->_createDummy();
 
         $title = $post->title;
+
+        $user = $this->user();
+        $this->actingAs($user);
 
         $this->delete("/blogpost/{$post->id}")
             ->assertStatus(302)
