@@ -11,6 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $this->command->call('migrate:refresh');
+        $this->command->info('Berhasil merefresh database');
+        /* 
+            ? Setelah membuat database seeder, sebelum menggenerate jalankan terlebih dahulu 
+            ! composer dump-autoload
+        */
+        $this->call([UsersTableSeeder::class, BlogPostsTableSeeder::class, CommentsTableSeeder::class]);
     }
 }
