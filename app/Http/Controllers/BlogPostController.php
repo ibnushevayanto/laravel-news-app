@@ -110,7 +110,8 @@ class BlogPostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $dataValidated = $request->validated();
-        $blogpost = BlogPosts::whereId($id)->update($dataValidated);
+
+        BlogPosts::find($id)->update($dataValidated);
 
         $request->session()->flash('status', 'News Was Edited!');
 
