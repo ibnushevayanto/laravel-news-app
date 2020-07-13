@@ -151,6 +151,9 @@ class BlogPostController extends Controller
     public function destroy(Request $request, $id)
     {
         $blogpost = BlogPosts::findOrFail($id);
+
+        $this->authorize($blogpost);
+
         $request->session()->flash('status', $blogpost->title . ' was deleted');
         $blogpost->delete();
         return redirect()->route('blogpost.index');

@@ -125,7 +125,23 @@
     * Cara Membuat Gate
     ? Penjelesan Ada Di File AuthServiceProvider.php
     
+    // =======================================================================================================================
+
     * Cara Menggunakan Gate
-    ? Penjelasan Ada Di File BlogPostController.php
+    ? Penjelasan Ada Di File BlogPostController.php Pada methods update dan edit
+
+    // =======================================================================================================================
+
+    ? Selain Menggunakan Gate::denies(); Kita juga bisa menggunakan authorize()
+    ? Contoh Kode BIsa Diliat Di BlogPostController.php Pada method destroy
+
+    // =======================================================================================================================
+
+    * Cara Check Authorize User Lain
+    ! Gate::forUser($user)->denies('update-post', $post);
+    ! Gate::forUser($user)->allows('update-post', $post);
+    ? Akan menghasilkan nilai boolean
+
+    // =======================================================================================================================
 
 */
