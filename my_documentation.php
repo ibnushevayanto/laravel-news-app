@@ -47,29 +47,85 @@
 
     ? Menampilkan Jumlah Komentar Semuanya Dan Terbaru
     ! BlogPosts::withCount(['comments as jumlah_komentar', 'comments as komentar_terbaru' => function($query){ $query->where('created_at', '>=', '2020-07-08 12:13:07'); }])->get();
+        
+    // =======================================================================================================================
 
     * +++ MODEL FACTORY +++
     
     ? Cara Membuat Factory
     ! php artisan make:factory CommentFactory --model=Comment
     ! factory berada di folder database/factories
+    
+    // =======================================================================================================================
 
     ? Contoh Cara Memanggil Factory
     ! factory(App\Comment::class)->create(['blog_post_id' => 2]);
+
+    // =======================================================================================================================
 
     * +++ Authentication +++
         
     * Sebelum Menggunakan Wajib Menggunakan Facade : 
     ! use Illuminate\Support\Facades\Auth;
 
+    // =======================================================================================================================
+    
     * Untuk Mendapatkan ID Dari User Menggunakan : 
     ! Auth::id();
+
+    // =======================================================================================================================
 
     * Untuk Mendapatkan Semua Data User Menggunakan : 
     ! Auth::user(); example :
     ! Auth::user()->email;
 
+    // =======================================================================================================================
+
     * Untuk Mengecheck Apakah Sudah Melakukan Autentikasi Menggunakan : 
     ! Auth::check();
     ? Menghasilkan Nilai TRUE / FALSE
+
+    // =======================================================================================================================
+
+    * +++ Soft Deletes +++
+
+    * Cara Membuat SoftDeletes
+    ? Silahkan Check BlogPosts Model dan add_soft_deletes_to_blog_posts_table
+    
+    // =======================================================================================================================
+
+    * Query Yang Bisa Digunakan Dalam Soft Delete
+
+    * Cara Mendapatkan Semua Record Yang Sudah Dihapus Maupun Belum Dihapus
+    ! BlogPosts::withTrashed()->get()->pluck('id');
+    ? FYI : pluck hanya membuat menjadi tampil idnya saja
+
+    // =======================================================================================================================
+
+    * Cara Mendapatkan Hanya Record Yang Sudah Dihapus 
+    ! BlogPosts::onlyTrashed()->get()->pluck('id);
+
+    // =======================================================================================================================
+    
+    * Check Apakah Record Sudah Dihapus
+    ! $bp = BlogPosts::find(11);
+    ! $bp->trashed();
+    ? Akan Menghasilkan Nilai TRUE / FALSE
+
+    // =======================================================================================================================
+
+    * Cara Merestore BlogPosts Yang Sudah Dihapus
+    ! $bp = BlogPosts::onlyTrashed()->find(1);
+    ! $bp->restore();
+
+    // =======================================================================================================================
+
+    * +++ Authorization +++
+
+    * Cara Membuat Gate
+    ? Penjelesan Ada Di File AuthServiceProvider.php
+    
+    * Cara Menggunakan Gate
+    ? Penjelasan Ada Di File BlogPostController.php
+
 */

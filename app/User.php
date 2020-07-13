@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\LogAktivity;
+use App\BlogPosts;
 
 class User extends Authenticatable
 {
@@ -41,5 +42,10 @@ class User extends Authenticatable
     public function log_aktivities()
     {
         return $this->hasMany(LogAktivity::class, 'user_id', 'id');
+    }
+
+    public function blogposts()
+    {
+        return $this->hasMany(BlogPosts::class, 'user_id', 'id');
     }
 }

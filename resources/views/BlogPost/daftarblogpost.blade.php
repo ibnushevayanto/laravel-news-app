@@ -29,7 +29,9 @@
                             class="badge badge-success"><strong>New!</strong></span>
                             @endif
                             {{-- diffForHumans() untuk merubah waktu dari aneh menjadi format yang bisa dibaca manusia --}}
-                            <p class="text-muted">{{ $item->created_at->diffForHumans() }}</p>
+                            <p class="text-muted">Added {{ $item->created_at->diffForHumans() }} by
+                                <b>{{ $item->user->name }}</b>
+                            </p>
                             <p class="review-text">
                                 {{ $item->content }}
                             </p>

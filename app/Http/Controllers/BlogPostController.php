@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BlogPosts;
 use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class BlogPostController extends Controller
 {
@@ -30,7 +31,7 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        return view('BlogPost.daftarblogpost', ['blogpost' => BlogPosts::withCount(['comments as jumlah_komentar'])->get()]);
+        return view('BlogPost.daftarblogpost', ['blogpost' => BlogPosts::withCount(['comments as jumlah_komentar'])->with('user')->get()]);
     }
 
     /**
@@ -97,7 +98,18 @@ class BlogPostController extends Controller
      */
     public function edit($id)
     {
-        return view('BlogPost.editblogpost', ['blogpost' => BlogPosts::findOrFail($id)]);
+        $post = BlogPosts::findOrFail($id);
+
+        /* 
+            ? Gate::denies
+            ? Adalah jika kondisi ditolak akan menghasilkan nilai boolean
+        */
+
+        if (Gate::denies('update-post', $post)) {
+            abort(403, 'You cant edit the blogpost');
+        }
+
+        return view('BlogPost.editblogpost', ['blogpost' => $post]);
     }
 
     /**
@@ -109,9 +121,21 @@ class BlogPostController extends Controller
      */
     public function update(PostRequest $request, $id)
     {
+
+        $post = BlogPosts::findOrFail($id);
+
+        if (Gate::denies('update-post', $post)) {
+            abort(403);
+        }
+
         $dataValidated = $request->validated();
 
-        BlogPosts::find($id)->update($dataValidated);
+        /*
+            ? Wajib Menggunakan find() Tidak Boleh Menggunakan where() 
+            ? Agar Ketrigger Pada Model Event Update
+        */
+
+        $post->update($dataValidated);
 
         $request->session()->flash('status', 'News Was Edited!');
 

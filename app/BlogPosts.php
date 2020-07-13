@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\LogAktivity;
+use App\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPosts extends Model
 {
+
+    use SoftDeletes;
+
     protected $fillable = ['title', 'content'];
 
     public function comments()
@@ -21,6 +26,11 @@ class BlogPosts extends Model
         return $this->hasMany(LogAktivity::class, 'blog_post_id', 'id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     /* 
         * Model Event Listener 
         * Event Yang Bisa Digunakan Bisa Dicheck Disini Semua https://laravel-news.com/laravel-model-events-getting-started
@@ -29,14 +39,16 @@ class BlogPosts extends Model
     {
         parent::boot();
 
-        static::updating(function (BlogPosts $blogpost) {
-            $logAktivity = new LogAktivity;
+        static::updated(function (BlogPosts $blogpost) {
+            if (Auth::check()) {
+                $logAktivity = new LogAktivity;
 
-            $logAktivity->content = 'Mengubah Blogpost ' . $blogpost->title;
-            $logAktivity->user_id = Auth::id();
-            $logAktivity->blog_post_id = $blogpost->id;
+                $logAktivity->content = 'Mengubah Blogpost ' . $blogpost->title;
+                $logAktivity->user_id = Auth::id();
+                $logAktivity->blog_post_id = $blogpost->id;
 
-            $logAktivity->save();
+                $logAktivity->save();
+            }
         });
 
         static::created(function (BlogPosts $blogpost) {
@@ -51,16 +63,33 @@ class BlogPosts extends Model
             }
         });
 
-        static::deleting(function (BlogPosts $blogpost) {
-            $logAktivity = new LogAktivity;
+        static::deleted(function (BlogPosts $blogpost) {
+            if (Auth::check()) {
+                $logAktivity = new LogAktivity;
 
-            $logAktivity->content = 'Menghapus Blogpost ' . $blogpost->title;
-            $logAktivity->user_id = Auth::id();
-            $logAktivity->blog_post_id = $blogpost->id;
+                $logAktivity->content = 'Menghapus Blogpost ' . $blogpost->title;
+                $logAktivity->user_id = Auth::id();
+                $logAktivity->blog_post_id = $blogpost->id;
 
-            $logAktivity->save();
+                $logAktivity->save();
+            }
 
             $blogpost->comments()->delete();
+        });
+
+        static::restored(function (BlogPosts $blogpost) {
+
+            if (Auth::check()) {
+                $logAktivity = new LogAktivity;
+
+                $logAktivity->content = 'Menambah Blogpost ' . $blogpost->title;
+                $logAktivity->user_id = Auth::id();
+                $logAktivity->blog_post_id = $blogpost->id;
+
+                $logAktivity->save();
+            }
+
+            $blogpost->comments()->restore();
         });
     }
 }

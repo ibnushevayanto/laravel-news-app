@@ -14,7 +14,7 @@ class AddBlogPostIdToLogAktivityTable extends Migration
     public function up()
     {
         Schema::table('log_aktivities', function (Blueprint $table) {
-            $table->unsignedBigInteger('blog_post_id');
+            $table->unsignedBigInteger('blog_post_id')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddBlogPostIdToLogAktivityTable extends Migration
      */
     public function down()
     {
-        Schema::table('log_aktivity', function (Blueprint $table) {
-            //
+        Schema::table('log_aktivities', function (Blueprint $table) {
+            $table->dropColumn(['blog_post_id']);
         });
     }
 }

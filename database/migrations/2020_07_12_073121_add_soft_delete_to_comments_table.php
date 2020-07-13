@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogAktivitiesTable extends Migration
+class AddSoftDeleteToCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateLogAktivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_aktivities', function (Blueprint $table) {
-            $table->id();
-            $table->text('content')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->timestamps();
+        Schema::table('comments', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateLogAktivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_aktivities');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

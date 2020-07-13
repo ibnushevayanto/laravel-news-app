@@ -124,8 +124,6 @@ class BlogPostTest extends TestCase
     {
         $post = $this->_createDummy();
 
-        $title = $post->title;
-
         $user = $this->user();
         $this->actingAs($user);
 
@@ -133,9 +131,11 @@ class BlogPostTest extends TestCase
             ->assertStatus(302)
             ->assertSessionHas('status');
 
-        $this->assertEquals(session('status'), $title . ' was deleted');
+        $this->assertEquals(session('status'), $post->title . ' was deleted');
 
-        $this->assertDatabaseMissing('blog_posts', ['title' => $title]);
+        $this->assertDatabaseMissing('blog_posts', $post->toArray());
+
+        // $this->assertSoftDeleted('blog_posts', $post->toArray());
     }
 
     /* 
