@@ -93,7 +93,8 @@ class BlogPostTest extends TestCase
 
     public function testUpdateIsValid()
     {
-        $post = $this->_createDummy();
+        $user = $this->user();
+        $post = $this->_createDummy($user->id);
 
         $this->assertDatabaseHas('blog_posts', [
             'title' => $post->title
@@ -104,7 +105,7 @@ class BlogPostTest extends TestCase
             'content' => 'Changed Content'
         ];
 
-        $user = $this->user();
+
         $this->actingAs($user);
 
         $this->put("/blogpost/{$post->id}", $newParams)
@@ -117,14 +118,14 @@ class BlogPostTest extends TestCase
             ? Bila Data Ilang Dari Database
         */
 
-        $this->assertDatabaseMissing('blog_posts', ['title' => $post->title]);
+        $this->assertDatabaseMissing('blog_posts', $post->toArray());
     }
 
     public function testDeleteBlogPost()
     {
-        $post = $this->_createDummy();
-
         $user = $this->user();
+        $post = $this->_createDummy($user->id);
+
         $this->actingAs($user);
 
         $this->delete("/blogpost/{$post->id}")
@@ -133,18 +134,18 @@ class BlogPostTest extends TestCase
 
         $this->assertEquals(session('status'), $post->title . ' was deleted');
 
-        $this->assertDatabaseMissing('blog_posts', $post->toArray());
-
-        // $this->assertSoftDeleted('blog_posts', $post->toArray());
+        $this->assertSoftDeleted('blog_posts', ['title' => $post->title]);
     }
 
     /* 
         ? Disamping Nama Function Itu Adalah Tipe Data
     */
 
-    private function _createDummy(): BlogPosts
+    private function _createDummy($userId = null): BlogPosts
     {
-        return factory(BlogPosts::class)->states('new-blogpost-test')->create();
+        return factory(BlogPosts::class)->states('new-blogpost-test')->create(
+            ['user_id' => $userId ?? $this->user()->id]
+        );
     }
 
     public function testPostSeeComment()
