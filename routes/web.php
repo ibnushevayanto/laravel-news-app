@@ -1,7 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +40,9 @@ Route::get('contact', 'PageController@contact')->name('contact');
 Route::resource('blogpost', 'BlogPostController');
 
 Auth::routes();
+
+// * Mengamankan Route Menggunakan Gate
+Route::get('secret', 'PageController@secret')->name('secret')->middleware('can:page.secret');
 
 /* 
     ? Cara Mengamankan Route

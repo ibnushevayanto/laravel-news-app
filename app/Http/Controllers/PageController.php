@@ -17,4 +17,8 @@ class PageController extends Controller
     {
         dd(['id' => $id, 'naga' => $naga]);
     }
+    public function secret()
+    {
+        return view('SecretPage.secret');
+    }
 }

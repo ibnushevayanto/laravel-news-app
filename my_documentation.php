@@ -144,4 +144,23 @@
 
     // =======================================================================================================================
 
+    * +++ Policy +++
+
+    * Cara Membuat Policy
+    ! php artisan make:policy NamePolicy --model=BlogPosts
+
+    // =======================================================================================================================
+
+    * Cara Menggunakan Policy
+    ! Ada di AuthServiceProvider.php
+
+    // =======================================================================================================================
+
+    * Cara Memverifikasi Policy Di Blade Template Laravel
+    * Check daftarblogpost.blade.php, method @can
+
+    // =======================================================================================================================
+
+    * Cara Mengamankan Route Menggunakan Middleware & Gate
+    * Check di web.php
 */

@@ -20,9 +20,12 @@
                     <div style="background-color: white; position: relative; height: 100%;" class="px-3 py-3 mr-3 mb-3">
                         <a href="{{route('blogpost.show', ['blogpost' => $item->id])}}">
                             <h2 class="font-weight-bold d-inline-block">{{$item->title}}</h2>
-                        </a> <a href="{{ route('blogpost.edit', ['blogpost' => $item->id]) }}">
+                        </a>
+                        @can('update', $item)
+                        <a href="{{ route('blogpost.edit', ['blogpost' => $item->id]) }}">
                             <i class="fa fa-edit"></i> Edit
                         </a>
+                        @endcan
 
                         {{--  Conditional Jika Waktu Koten Dibuat Kurang Dari 5 Menit  --}}
                         @if ((new Carbon\Carbon())->diffInMinutes($item->created_at) <= 5) <span
@@ -44,6 +47,7 @@
                                 <small>Not have a comments</small>
                             </p>
                             @endif
+                            @can('delete', $item)
                             <form action="{{route('blogpost.destroy', ['blogpost' => $item->id])}}" method="post">
                                 @csrf
                                 {{-- Jika Method Tidak Tersedia Pada HTML gunakan @method --}}
@@ -53,6 +57,7 @@
                                     <i class="fa fa-times"></i>
                                 </button>
                             </form>
+                            @endcan
                     </div>
                 </div>
                 @empty

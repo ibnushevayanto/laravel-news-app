@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\BlogPosts;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        BlogPosts::class => 'App\Policies\BlogPostPolicy',
     ];
 
     /**
@@ -36,13 +37,32 @@ class AuthServiceProvider extends ServiceProvider
             ? Dan pada parameter pertama clojure sudah automatis mendapatkan data dari authentikasi login
         */
 
-        Gate::define('update-post', function ($user, $post) {
-            return $user->id == $post->user_id;
-        });
+        /*
 
-        Gate::define('delete-post', function ($user, $post) {
-            return $user->id == $post->user_id;
-        });
+            Gate::define('update-post', function ($user, $post) {
+                return $user->id == $post->user_id;
+            });
+
+            Gate::define('delete-post', function ($user, $post) {
+                return $user->id == $post->user_id;
+            });
+
+        */
+
+        // * Cara Menggunakan Policy
+
+        // * Cara Pertama, Dengan Mendefine Satu Satu
+        /* 
+            Gate::define('blogpost.update', 'App\Policies\BlogPostPolicy@update');
+            Gate::define('blogpost.delete', 'App\Policies\BlogPostPolicy@delete');
+        */
+
+        // * Cara Kedua, Dengan Mendefine Sekaligu
+
+        // Gate::resource('blogpost', 'App\Policies\BlogPostPolicy');
+
+        // * Cara Ketiga Dengan Mendaftarkan Policy
+        // ! Check Line 15
 
         /* 
             * Gate::before()
@@ -51,8 +71,12 @@ class AuthServiceProvider extends ServiceProvider
             ? Clojure paramater sama seperti Gate::define
         */
 
+        Gate::define('page.secret', function ($user) {
+            return $user->is_admin;
+        });
+
         Gate::before(function ($user, $ability) {
-            if ($user->is_admin && in_array($ability, ['update-post'])) {
+            if ($user->is_admin && in_array($ability, ['delete'])) {
                 return true;
             }
         });
@@ -63,11 +87,11 @@ class AuthServiceProvider extends ServiceProvider
         */
 
         /* 
-            ! Gate::after(function ($user, $ability, $result) {
-                ! if ($user->is_admin) {
-                    ! return true;
-                ! }
-            ! });
+            Gate::after(function ($user, $ability, $result) {
+                if ($user->is_admin) {
+                    return true;
+                }
+            });
         */
     }
 }

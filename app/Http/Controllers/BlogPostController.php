@@ -105,7 +105,8 @@ class BlogPostController extends Controller
             ? Adalah jika kondisi ditolak akan menghasilkan nilai boolean
         */
 
-        if (Gate::denies('update-post', $post)) {
+        // * Jikalau Policy Sudah Didaftarkan Check Di AuthServiceProvider.php line 15
+        if (Gate::denies('update', $post)) {
             abort(403, 'You cant edit the blogpost');
         }
 
@@ -124,7 +125,7 @@ class BlogPostController extends Controller
 
         $post = BlogPosts::findOrFail($id);
 
-        if (Gate::denies('update-post', $post)) {
+        if (Gate::denies('update', $post)) {
             abort(403);
         }
 
@@ -152,7 +153,11 @@ class BlogPostController extends Controller
     {
         $blogpost = BlogPosts::findOrFail($id);
 
-        $this->authorize($blogpost);
+        // * Cara Kedua Dalam Memberifikasi Authorization Selain Gate::denies() / Gate::allows()
+        // $this->authorize('blogpost.delete', $blogpost);
+
+        // * Jikalau Policy Sudah Didaftarkan Check Di AuthServiceProvider.php line 15
+        $this->authorize('delete', $blogpost);
 
         $request->session()->flash('status', $blogpost->title . ' was deleted');
         $blogpost->delete();
