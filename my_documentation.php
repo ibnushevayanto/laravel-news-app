@@ -122,6 +122,8 @@
 
     * +++ Authorization +++
 
+    * Gate
+
     * Cara Membuat Gate
     ? Penjelesan Ada Di File AuthServiceProvider.php
     
@@ -144,7 +146,7 @@
 
     // =======================================================================================================================
 
-    * +++ Policy +++
+    * Policy
 
     * Cara Membuat Policy
     ! php artisan make:policy NamePolicy --model=BlogPosts
@@ -157,10 +159,25 @@
     // =======================================================================================================================
 
     * Cara Memverifikasi Policy Di Blade Template Laravel
-    * Check daftarblogpost.blade.php, method @can
+    ? Check daftarblogpost.blade.php, method @can
 
     // =======================================================================================================================
 
     * Cara Mengamankan Route Menggunakan Middleware & Gate
-    * Check di web.php
+    ? Check di web.php
+
+    // =======================================================================================================================
+
+    * +++ QUERY SCOPES +++
+
+    * Global Query Scopes
+    ? Cara Membuat Global Query Scopes
+    ? Check App/Scopes/LatestScope.php
+
+    // =======================================================================================================================
+    
+    * Local Query Scopes
+    ? Cara Membuat Local Query Scopes
+    ? Check App/BlogPosts
+
 */

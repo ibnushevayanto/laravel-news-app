@@ -44,7 +44,7 @@
                             </p>
                             @else
                             <p class="text-muted">
-                                <small>Not have a comments</small>
+                                <small>Not have a comment</small>
                             </p>
                             @endif
                             @can('delete', $item)

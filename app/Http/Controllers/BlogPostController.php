@@ -31,7 +31,10 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        return view('BlogPost.daftarblogpost', ['blogpost' => BlogPosts::withCount(['comments as jumlah_komentar'])->with('user')->get()]);
+        // * Cara menggunakan local query scope liat method latest pada code dibawah ini
+        // ? Cara menggunakan local query scope pada child relation, liat method show. with comments
+        $data = BlogPosts::latest()->withCount(['comments as jumlah_komentar'])->with('user')->get();
+        return view('BlogPost.daftarblogpost', ['blogpost' => $data]);
     }
 
     /**
@@ -70,6 +73,7 @@ class BlogPostController extends Controller
          */
 
         $validatedData = $request->validated();
+        $validatedData['user_id'] = $request->user()->id;
 
         $blogpost = BlogPosts::create($validatedData);
 
@@ -87,7 +91,15 @@ class BlogPostController extends Controller
      */
     public function show($id)
     {
-        return view('BlogPost.detailblogpost', ['blogpost' => BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id)]);
+        // * Cara pertama menggunakan query local scope pada child relation
+        // $data = BlogPosts::withCount('comments as jumlah_komentar')->with(['comments' => function ($query) {
+        //     return $query->latest();
+        // }])->findOrFail($id);
+
+        // * Cara kedua menggunakan query local scope pada child relation adalah dengan langsung pada methods comments di BlogPosts Model. silahkan dicheck
+        $data = BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id);
+
+        return view('BlogPost.detailblogpost', ['blogpost' => $data]);
     }
 
     /**
@@ -130,6 +142,7 @@ class BlogPostController extends Controller
         }
 
         $dataValidated = $request->validated();
+        $dataValidated['user_id'] = $request->user()->id;
 
         /*
             ? Wajib Menggunakan find() Tidak Boleh Menggunakan where() 
