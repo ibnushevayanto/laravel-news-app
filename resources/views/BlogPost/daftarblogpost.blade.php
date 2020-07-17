@@ -67,6 +67,23 @@
                 @endforelse
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Most Commented</h5>
+                </div>
+                <ul class="list-group">
+                    @forelse ($most_commented as $data)
+                    <li class="list-group-item border-right-0 border-left-0">
+                        <a href="{{ route('blogpost.show', $data->id) }}">{{ $data->title }}</a>
+                    </li>
+                    @empty
+
+                    @endforelse
+                </ul>
+            </div>
+
+        </div>
     </div>
 </div>
 @endsection

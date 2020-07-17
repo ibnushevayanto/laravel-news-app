@@ -43,6 +43,11 @@ class BlogPosts extends Model
         return $query->orderBy('created_at', 'desc');
     }
 
+    public function scopeMostCommented(Builder $query)
+    {
+        return $query->withCount('comments as komentar')->orderBy('komentar', 'desc')->limit(5);
+    }
+
     /* 
         * Model Event Listener 
         * Event Yang Bisa Digunakan Bisa Dicheck Disini Semua https://laravel-news.com/laravel-model-events-getting-started

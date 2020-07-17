@@ -34,7 +34,8 @@ class BlogPostController extends Controller
         // * Cara menggunakan local query scope liat method latest pada code dibawah ini
         // ? Cara menggunakan local query scope pada child relation, liat method show. with comments
         $data = BlogPosts::latest()->withCount(['comments as jumlah_komentar'])->with('user')->get();
-        return view('BlogPost.daftarblogpost', ['blogpost' => $data]);
+        $mostCommented = BlogPosts::mostCommented()->get();
+        return view('BlogPost.daftarblogpost', ['blogpost' => $data, 'most_commented' => $mostCommented]);
     }
 
     /**
