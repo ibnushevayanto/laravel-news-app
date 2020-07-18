@@ -1,6 +1,12 @@
 <?php
 
 /*
+    * +++ FUN FACT +++
+
+    ? Perdbedaan find dengan where
+    ! Kalau where itu menghasilkan multiple data tetapi find menghasilkan single data
+
+    // =======================================================================================================================
 
     * +++ QUERY RELATIONSHIP +++
 

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\LogAktivity;
 use App\BlogPosts;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -47,5 +48,17 @@ class User extends Authenticatable
     public function blogposts()
     {
         return $this->hasMany(BlogPosts::class, 'user_id', 'id');
+    }
+
+    public function scopeMostWrittenBlog(Builder $query)
+    {
+        return $query->withCount('blogposts as jumlah_blog')->orderBy('jumlah_blog', 'desc');
+    }
+
+    public function scopeMostActiveUserLastMonth(Builder $query)
+    {
+        return $query->withCount(['blogposts as jumlah_blog' => function ($query) {
+            $query->whereBetween('created_at', [now()->subMonths(1), now()]);
+        }])->has('blogposts', '>', 2)->orderBy('jumlah_blog', 'desc');
     }
 }

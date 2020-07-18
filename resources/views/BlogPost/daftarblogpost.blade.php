@@ -71,11 +71,44 @@
             <div class="card border-0">
                 <div class="card-body">
                     <h5 class="card-title">Most Commented</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Blog paling banyak dibicarakan. </h6>
                 </div>
                 <ul class="list-group">
                     @forelse ($most_commented as $data)
                     <li class="list-group-item border-right-0 border-left-0">
                         <a href="{{ route('blogpost.show', $data->id) }}">{{ $data->title }}</a>
+                    </li>
+                    @empty
+
+                    @endforelse
+                </ul>
+            </div>
+
+            <div class="card border-0 mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Most Active User</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Penulis paling aktif membagikan cerita.</h6>
+                </div>
+                <ul class="list-group">
+                    @forelse ($most_user_written_blogpost as $data)
+                    <li class="list-group-item border-right-0 border-left-0">
+                        {{ $data->name }}
+                    </li>
+                    @empty
+
+                    @endforelse
+                </ul>
+            </div>
+
+            <div class="card border-0 mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Most Active User Last Month</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Penulis paling aktif membagikan cerita bulan ini.</h6>
+                </div>
+                <ul class="list-group">
+                    @forelse ($most_active_user_last_month as $data)
+                    <li class="list-group-item border-right-0 border-left-0">
+                        {{ $data->name }}
                     </li>
                     @empty
 

@@ -45,7 +45,7 @@ class BlogPosts extends Model
 
     public function scopeMostCommented(Builder $query)
     {
-        return $query->withCount('comments as komentar')->orderBy('komentar', 'desc')->limit(5);
+        return $query->withCount('comments as komentar')->orderBy('komentar', 'desc');
     }
 
     /* 

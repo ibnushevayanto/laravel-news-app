@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BlogPosts;
 use App\Http\Requests\PostRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -34,8 +35,16 @@ class BlogPostController extends Controller
         // * Cara menggunakan local query scope liat method latest pada code dibawah ini
         // ? Cara menggunakan local query scope pada child relation, liat method show. with comments
         $data = BlogPosts::latest()->withCount(['comments as jumlah_komentar'])->with('user')->get();
-        $mostCommented = BlogPosts::mostCommented()->get();
-        return view('BlogPost.daftarblogpost', ['blogpost' => $data, 'most_commented' => $mostCommented]);
+        $mostCommented = BlogPosts::mostCommented()->take(5)->get();
+        $mostUserWrittenBlogPost = User::mostWrittenBlog()->take(5)->get();
+        $mostActiveUserLastMonth = User::mostActiveUserLastMonth()->take(5)->get();
+
+        return view('BlogPost.daftarblogpost', [
+            'blogpost' => $data,
+            'most_commented' => $mostCommented,
+            'most_user_written_blogpost' => $mostUserWrittenBlogPost,
+            'most_active_user_last_month' => $mostActiveUserLastMonth
+        ]);
     }
 
     /**
