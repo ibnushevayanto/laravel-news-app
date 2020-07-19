@@ -7,6 +7,7 @@ use App\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\LogAktivity;
 use App\Scopes\LatestScope;
+use App\Scopes\AdminScope;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -54,6 +55,9 @@ class BlogPosts extends Model
     */
     public static function boot()
     {
+
+        static::addGlobalScope(new AdminScope);
+
         parent::boot();
 
         // * Cara Menggunakan Query Global Scope

@@ -18,8 +18,17 @@
                 @forelse ($blogpost as $item)
                 <div class="col-md-6 px-2 py-2">
                     <div style="background-color: white; position: relative; height: 100%;" class="px-3 py-3 mr-3 mb-3">
-                        <a href="{{route('blogpost.show', ['blogpost' => $item->id])}}">
-                            <h2 class="font-weight-bold d-inline-block">{{$item->title}}</h2>
+                        <a href="{{route('blogpost.show', ['blogpost' => $item->id])}}"
+                            class="{{ $item->trashed() ? 'text-muted' : '' }}">
+                            <h2 class="font-weight-bold d-inline-block">
+                                @if ($item->trashed())
+                                <del>
+                                    @endif
+                                    {{$item->title}}
+                                    @if ($item->trashed())
+                                </del>
+                                @endif
+                            </h2>
                         </a>
                         @can('update', $item)
                         <a href="{{ route('blogpost.edit', ['blogpost' => $item->id]) }}">
@@ -47,6 +56,8 @@
                                 <small>Not have a comment</small>
                             </p>
                             @endif
+
+                            @if (!$item->trashed())
                             @can('delete', $item)
                             <form action="{{route('blogpost.destroy', ['blogpost' => $item->id])}}" method="post">
                                 @csrf
@@ -58,6 +69,7 @@
                                 </button>
                             </form>
                             @endcan
+                            @endif
                     </div>
                 </div>
                 @empty

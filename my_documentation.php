@@ -186,4 +186,9 @@
     ? Cara Membuat Local Query Scopes
     ? Check App/BlogPosts
 
+    // =======================================================================================================================
+
+    * Cara Memblock Global Query Scope
+    ? Check di AdminScope.php
+
 */
