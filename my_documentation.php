@@ -191,4 +191,17 @@
     * Cara Memblock Global Query Scope
     ? Check di AdminScope.php
 
+    // =======================================================================================================================
+
+    * +++ Components Blade Laravel +++
+
+    * Cara Membuat & Menggunakan Component Laravel Blade
+
+    ? Cara Pertama
+    ! Membuat dan menggunakan check di detailblopost.blade.php pada [badge]
+
+    * Cara Kedua
+    ! Untuk membuat instansiasi check di AppServiceProvider.php
+    ! Untuk menggunakan check di detailblopost.blade.php pada [badge]
+
 */

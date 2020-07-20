@@ -41,9 +41,9 @@
                             class="badge badge-success"><strong>New!</strong></span>
                             @endif
                             {{-- diffForHumans() untuk merubah waktu dari aneh menjadi format yang bisa dibaca manusia --}}
-                            <p class="text-muted">Added {{ $item->created_at->diffForHumans() }} by
-                                <b>{{ $item->user->name }}</b>
-                            </p>
+                            <x-date-upload name="{{ $item->user->name }}"
+                                date="{{ $item->created_at->diffForHumans() }}">
+                            </x-date-upload>
                             <p class="review-text">
                                 {{ $item->content }}
                             </p>
@@ -80,53 +80,16 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Most Commented</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Blog paling banyak dibicarakan. </h6>
-                </div>
-                <ul class="list-group">
-                    @forelse ($most_commented as $data)
-                    <li class="list-group-item border-right-0 border-left-0">
-                        <a href="{{ route('blogpost.show', $data->id) }}">{{ $data->title }}</a>
-                    </li>
-                    @empty
 
-                    @endforelse
-                </ul>
-            </div>
+            <x-data-card title="Most Commented" subtitle="Blog paling banyak dibicarakan." :items="$most_commented"
+                flag="blogposts"></x-data-card>
 
-            <div class="card border-0 mt-3">
-                <div class="card-body">
-                    <h5 class="card-title">Most Active User</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Penulis paling aktif membagikan cerita.</h6>
-                </div>
-                <ul class="list-group">
-                    @forelse ($most_user_written_blogpost as $data)
-                    <li class="list-group-item border-right-0 border-left-0">
-                        {{ $data->name }}
-                    </li>
-                    @empty
+            <x-data-card title="Most Active User" subtitle="Penulis paling aktif membagikan cerita."
+                :items="collect($most_user_written_blogpost)->pluck('name')" addMarginTop></x-data-card>
 
-                    @endforelse
-                </ul>
-            </div>
-
-            <div class="card border-0 mt-3">
-                <div class="card-body">
-                    <h5 class="card-title">Most Active User Last Month</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Penulis paling aktif membagikan cerita bulan ini.</h6>
-                </div>
-                <ul class="list-group">
-                    @forelse ($most_active_user_last_month as $data)
-                    <li class="list-group-item border-right-0 border-left-0">
-                        {{ $data->name }}
-                    </li>
-                    @empty
-
-                    @endforelse
-                </ul>
-            </div>
+            <x-data-card title="Most Active User Last Month"
+                subtitle="Penulis paling aktif membagikan cerita bulan ini."
+                :items="collect($most_active_user_last_month)->pluck('name')" addMarginTop></x-data-card>
 
         </div>
     </div>
