@@ -11,6 +11,7 @@ use App\Scopes\AdminScope;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class BlogPosts extends Model
 {
@@ -64,6 +65,10 @@ class BlogPosts extends Model
         // ! static::addGlobalScope(new LatestScope);
 
         static::updated(function (BlogPosts $blogpost) {
+
+            //  ? Cara menghapus cache
+            Cache::forget("blog-post-{$blogpost->id}");
+
             if (Auth::check()) {
                 $logAktivity = new LogAktivity;
 

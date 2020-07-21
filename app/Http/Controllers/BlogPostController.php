@@ -7,6 +7,7 @@ use App\Http\Requests\PostRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 
 class BlogPostController extends Controller
 {
@@ -35,9 +36,27 @@ class BlogPostController extends Controller
         // * Cara menggunakan local query scope liat method latest pada code dibawah ini
         // ? Cara menggunakan local query scope pada child relation, liat method show. with comments
         $data = BlogPosts::latest()->withCount(['comments as jumlah_komentar'])->with('user')->get();
-        $mostCommented = BlogPosts::mostCommented()->take(5)->get();
-        $mostUserWrittenBlogPost = User::mostWrittenBlog()->take(5)->get();
-        $mostActiveUserLastMonth = User::mostActiveUserLastMonth()->take(5)->get();
+
+        // * Cara membuat cache
+
+        $mostCommented = Cache::remember('most-commented', 60, function () {
+            return BlogPosts::mostCommented()->take(5)->get();
+        });
+
+
+        // * Automatis terdeteksi logic dari cache
+        // * Logic nya ialah Jika ada di cache akan mengambil dari cache jika tidak akan fetch dari database
+        // * Parameter pertama dari cache::remember adalah nama dari cache tersebut
+        // * Parameter kedua dari cache::remember adalah waktu tersimpannya cache tersebut. [Dalam hitungan sekon]
+        // * Parameter ketiga dari cache::remember adalah data yang ingin disimpan
+
+        $mostUserWrittenBlogPost = Cache::remember('most-user-written-blog-post', 60, function () {
+            return User::mostWrittenBlog()->take(5)->get();
+        });
+
+        $mostActiveUserLastMonth = Cache::remember('most-active-user-last-month', 60, function () {
+            return User::mostActiveUserLastMonth()->take(5)->get();
+        });
 
         return view('BlogPost.daftarblogpost', [
             'blogpost' => $data,
@@ -101,13 +120,17 @@ class BlogPostController extends Controller
      */
     public function show($id)
     {
-        // * Cara pertama menggunakan query local scope pada child relation
+        // * Cara pertama menggunakan query local scope pada relation with
+
         // $data = BlogPosts::withCount('comments as jumlah_komentar')->with(['comments' => function ($query) {
         //     return $query->latest();
         // }])->findOrFail($id);
 
         // * Cara kedua menggunakan query local scope pada child relation adalah dengan langsung pada methods comments di BlogPosts Model. silahkan dicheck
-        $data = BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id);
+
+        $data = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
+            return BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id);
+        });
 
         return view('BlogPost.detailblogpost', ['blogpost' => $data]);
     }

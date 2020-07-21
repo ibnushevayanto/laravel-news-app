@@ -166,6 +166,7 @@
 
     * Cara Memverifikasi Policy Di Blade Template Laravel
     ? Check daftarblogpost.blade.php, method @can
+    ? Jika menggunakanka @can sebaiknya periksa dulu apakah di telah authentikasi agar tidak mempengaruhi performa
 
     // =======================================================================================================================
 
@@ -203,5 +204,17 @@
     * Cara Kedua
     ! Untuk membuat instansiasi check di AppServiceProvider.php
     ! Untuk menggunakan check di detailblopost.blade.php pada [badge]
+
+    // =======================================================================================================================
+
+    * +++ Cache +++
+
+    * Cara membuat cache
+    ! Check BlogPostController pada method index()
+
+    // =======================================================================================================================
+
+    * Cara menghapus cache
+    ! Check pada BlogPosts.php di model event updated
 
 */

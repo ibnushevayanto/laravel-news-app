@@ -30,11 +30,13 @@
                                 @endif
                             </h2>
                         </a>
+                        @auth
                         @can('update', $item)
                         <a href="{{ route('blogpost.edit', ['blogpost' => $item->id]) }}">
                             <i class="fa fa-edit"></i> Edit
                         </a>
                         @endcan
+                        @endauth
 
                         {{--  Conditional Jika Waktu Koten Dibuat Kurang Dari 5 Menit  --}}
                         @if ((new Carbon\Carbon())->diffInMinutes($item->created_at) <= 5) <span
@@ -58,6 +60,7 @@
                             @endif
 
                             @if (!$item->trashed())
+                            @auth
                             @can('delete', $item)
                             <form action="{{route('blogpost.destroy', ['blogpost' => $item->id])}}" method="post">
                                 @csrf
@@ -69,6 +72,7 @@
                                 </button>
                             </form>
                             @endcan
+                            @endauth
                             @endif
                     </div>
                 </div>
