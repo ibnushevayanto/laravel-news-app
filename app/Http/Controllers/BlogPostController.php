@@ -132,7 +132,68 @@ class BlogPostController extends Controller
             return BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id);
         });
 
-        return view('BlogPost.detailblogpost', ['blogpost' => $data]);
+        // ? Start fitur siapa yang sedang melihat blogpost
+        // * Untuk mendapatkan user session [Tidak perlu login untuk mendapatkan user session]
+        $sessionId = session()->getId();
+
+        // * Mengambil cache jika tidak ada akan cache berupa array kosong
+        $usersKey = "blog-post-{$id}-users";
+        $users = Cache::get($usersKey, []);
+
+        // * Tempat menyimpan semua users yang sedang melihat
+        $usersUpdate = [];
+
+        $diffrence = 0;
+        $now = now();
+
+        foreach ($users as $session => $lastVisit) {
+            /*
+                * Cache dari variabel $users dilooping
+                * logicnya jika waktu users dari waktu sekarang dengan value lebih dari satu menit
+                * maka akan dibaca expired
+                * jika tidak akan disimpan di tempat penyimpanan sementara yaitu variable $usersUpdate
+            */
+            if ($now->diffInMinutes($lastVisit) >= 1) {
+                $diffrence--;
+            } else {
+                $usersUpdate[$session] = $lastVisit;
+            }
+        }
+
+        /*
+            * Jika didalam cache $users masih fresh atau tidak ada key yang sama dengan $sessionId
+            * Atau ada yang sama keynya tetapi sudah expired maka akan dibuat kembali
+            * Ini karena pada saat foreach diatas kita menghilangkan karena sudah expired dan dibuat yang baru
+        */
+        if (
+            !array_key_exists($sessionId, $users) ||
+            $now->diffInMinutes($users[$sessionId]) >= 1
+        ) {
+            $diffrence++;
+        }
+
+        // * store ke array dengan waktu sekarang
+        $usersUpdate[$sessionId] = $now;
+
+        // * Store ke cache selamanya nilai dari $usersUpdate
+        Cache::forever($usersKey, $usersUpdate);
+
+        /* 
+            * Jika cache tidak punya key seperti variable $counterKey
+            * Maka akan membuat cache dengan key $counterKey 
+            * Kenapa harus melakukan itu ? 
+            * Karena logic diatas kita hanya mengecheck yang sudah satu menit atau yang sudah expired jadi kita harus membuat baru
+            * Jika sudah ada maka nilai akan di increment dari nilai diffrence
+        */
+        $counterKey = "blog-post-{$id}-counter";
+        if (!Cache::has($counterKey)) {
+            Cache::forever($counterKey, 1);
+        } else {
+            Cache::increment($counterKey, $diffrence);
+        }
+
+        $watched = Cache::get($counterKey);
+        return view('BlogPost.detailblogpost', ['blogpost' => $data, 'watched' => $watched]);
     }
 
     /**

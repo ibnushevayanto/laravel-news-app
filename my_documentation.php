@@ -209,12 +209,47 @@
 
     * +++ Cache +++
 
-    * Cara membuat cache
+    * Cara Menerima dan menyimpan cache
     ! Check BlogPostController pada method index()
 
     // =======================================================================================================================
 
     * Cara menghapus cache
     ! Check pada BlogPosts.php di model event updated
+
+    // =======================================================================================================================
+
+    * Cara Menyimpan cache
+    ? Menggunakan Cache::put();
+    ? contoh : Cache::put('data', 'ada data disini', 5);
+    ? parameter pertama adalah nama cache, parameter kedua isi dari cache, sedangkan parameter ketiga adalah waktu tersimpannya cache dalam satuan menit
+    ! jika tidak menggunakan parameter ketiga, maka cache akan tersimpan selamanya
+
+    // =======================================================================================================================
+
+    * Cara check apakah cache sudah digunakan atau belum
+    ? menggunakan Cache::has('nama_cache')
+    ? contoh : Cache::has('data')
+    ? akan menghasilkan nilai boolean true or false
+
+    // =======================================================================================================================
+
+    * Cara mendapatkan isi dari cache
+    ? menggunakan Cache::get('nama_cache')
+    ? contoh : Cache::get('data')
+    ! Jika nama cache tidak tersedia akan menghasilkan nilai null
+
+    ? Jika nama cache tidak tersedia dan mau menggunakan default value caranya dengan menambahkan parameter kedua, sperti dibawah ini :
+    ? Cache::get('data2', 'default value')
+
+    // =======================================================================================================================
+
+    * Cache Counter Value [Increment, Decrement]
+    * membuat cache increment
+    ? Cache::increment('key', 0);
+    * jika kita melakukan ini
+    ? Cache::increment('key');
+    * maka nilai akan bertambah satu
+
 
 */
