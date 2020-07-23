@@ -245,11 +245,37 @@
     // =======================================================================================================================
 
     * Cache Counter Value [Increment, Decrement]
+
     * membuat cache increment
     ? Cache::increment('key', 0);
     * jika kita melakukan ini
     ? Cache::increment('key');
     * maka nilai akan bertambah satu
 
+    // =======================================================================================================================
+
+    * Cache Tags 
+    ! important : Cache::tags(); hanya support pada memchached atau redis saja, tidak support pada file system dan mysql
+    ! Note : Cache::tags juga bisa menggunakan method function yang sama dengan Cache biasa
+    ! Contoh Seperti Dibawah Ini
+    
+    // =======================================================================================================================
+
+    * Cara store data menggunakan cache::tags
+    ? Parameter dalam tags harus berupa array
+    ? Parameter pertama dalam method put() adalah nama cache, parameter kedua adalah isi cache, parameter ketiga adalah waktu cache dalam hitungan sekon
+    ? Cache::tags(['artist', 'people'])->put('Ibnu', 'Hello iam ibnu', 600)
+
+    // =======================================================================================================================
+
+    * Cara get data dari cache::tags
+    ? Cache::tags(['artist', 'people'])->get('Ibnu')
+
+    // =======================================================================================================================
+
+    * Cara Menghapus Semua cache::tags yang terhubung
+    ? Cache::tags(['artist'])->flush()
+
+    // =======================================================================================================================
 
 */

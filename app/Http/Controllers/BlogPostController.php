@@ -39,7 +39,7 @@ class BlogPostController extends Controller
 
         // * Cara membuat cache
 
-        $mostCommented = Cache::remember('most-commented', 60, function () {
+        $mostCommented = Cache::tags(['blog-post'])->remember('most-commented', 600, function () {
             return BlogPosts::mostCommented()->take(5)->get();
         });
 
@@ -50,11 +50,11 @@ class BlogPostController extends Controller
         // * Parameter kedua dari cache::remember adalah waktu tersimpannya cache tersebut. [Dalam hitungan sekon]
         // * Parameter ketiga dari cache::remember adalah data yang ingin disimpan
 
-        $mostUserWrittenBlogPost = Cache::remember('most-user-written-blog-post', 60, function () {
+        $mostUserWrittenBlogPost = Cache::tags(['blog-post'])->remember('most-user-written-blog-post', 600, function () {
             return User::mostWrittenBlog()->take(5)->get();
         });
 
-        $mostActiveUserLastMonth = Cache::remember('most-active-user-last-month', 60, function () {
+        $mostActiveUserLastMonth = Cache::tags(['blog-post'])->remember('most-active-user-last-month', 600, function () {
             return User::mostActiveUserLastMonth()->take(5)->get();
         });
 
@@ -128,17 +128,18 @@ class BlogPostController extends Controller
 
         // * Cara kedua menggunakan query local scope pada child relation adalah dengan langsung pada methods comments di BlogPosts Model. silahkan dicheck
 
-        $data = Cache::remember("blog-post-{$id}", 60, function () use ($id) {
+        $data = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 600, function () use ($id) {
             return BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id);
         });
 
         // ? Start fitur siapa yang sedang melihat blogpost
+
         // * Untuk mendapatkan user session [Tidak perlu login untuk mendapatkan user session]
         $sessionId = session()->getId();
 
         // * Mengambil cache jika tidak ada akan cache berupa array kosong
         $usersKey = "blog-post-{$id}-users";
-        $users = Cache::get($usersKey, []);
+        $users = Cache::tags(['blog-post'])->get($usersKey, []);
 
         // * Tempat menyimpan semua users yang sedang melihat
         $usersUpdate = [];
@@ -176,7 +177,7 @@ class BlogPostController extends Controller
         $usersUpdate[$sessionId] = $now;
 
         // * Store ke cache selamanya nilai dari $usersUpdate
-        Cache::forever($usersKey, $usersUpdate);
+        Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
 
         /* 
             * Jika cache tidak punya key seperti variable $counterKey
@@ -186,13 +187,15 @@ class BlogPostController extends Controller
             * Jika sudah ada maka nilai akan di increment dari nilai diffrence
         */
         $counterKey = "blog-post-{$id}-counter";
-        if (!Cache::has($counterKey)) {
-            Cache::forever($counterKey, 1);
+        if (!Cache::tags(['blog-post'])->has($counterKey)) {
+            Cache::tags(['blog-post'])->forever($counterKey, 1);
         } else {
-            Cache::increment($counterKey, $diffrence);
+            Cache::tags(['blog-post'])->increment($counterKey, $diffrence);
         }
 
-        $watched = Cache::get($counterKey);
+        $watched = Cache::tags(['blog-post'])->get($counterKey);
+        // ? End fitur siapa yang sedang melihat blogpost
+
         return view('BlogPost.detailblogpost', ['blogpost' => $data, 'watched' => $watched]);
     }
 

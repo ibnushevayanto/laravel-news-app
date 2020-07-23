@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->command->call('migrate:refresh');
         $this->command->info('Berhasil merefresh database');
+
+        Cache::tags(['blog-post'])->flush();
+
         /* 
             ? Setelah membuat database seeder, sebelum menggenerate jalankan terlebih dahulu 
             ! composer dump-autoload

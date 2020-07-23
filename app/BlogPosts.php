@@ -67,7 +67,11 @@ class BlogPosts extends Model
         static::updated(function (BlogPosts $blogpost) {
 
             //  ? Cara menghapus cache
-            Cache::forget("blog-post-{$blogpost->id}");
+            // Cache::forget("blog-post-{$blogpost->id}");
+
+            // ? Cara menghapus Jika Menggunakan Cache::tags
+            Cache::tags(['blog-post'])->flush();
+
 
             if (Auth::check()) {
                 $logAktivity = new LogAktivity;
@@ -81,6 +85,9 @@ class BlogPosts extends Model
         });
 
         static::created(function (BlogPosts $blogpost) {
+
+            Cache::tags(['blog-post'])->flush();
+
             if (Auth::check()) {
                 $logAktivity = new LogAktivity;
 
@@ -93,6 +100,9 @@ class BlogPosts extends Model
         });
 
         static::deleted(function (BlogPosts $blogpost) {
+
+            Cache::tags(['blog-post'])->flush();
+
             if (Auth::check()) {
                 $logAktivity = new LogAktivity;
 
@@ -107,6 +117,8 @@ class BlogPosts extends Model
         });
 
         static::restored(function (BlogPosts $blogpost) {
+
+            Cache::tags(['blog-post'])->flush();
 
             if (Auth::check()) {
                 $logAktivity = new LogAktivity;
