@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use App\Tag;
 
 class BlogPosts extends Model
 {
@@ -34,6 +35,19 @@ class BlogPosts extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    // * Cara Instansiasi Model Many To Many
+
+    public function tags()
+    {
+        // * Parameter Pertama Adalah Class Terkait
+        // * Parameter Kedua Adalah Nama Table Pivot
+        // * Parameter Ketiga Adalah Key Kita Disana, Sebagai Contoh Karena Ini Di Model BlogPost Maka Keynya Adalah blog_post_id
+        // * Parameter Keempat Adalah foregin key yang lain yang terhubung juga
+        // * Parameter Kelima Adalah PrimaryKey Dari Table Kita, Karena Ini Di Table blog_posts maka Primarynya adalah id
+        // * Parameter Keenam Adalah PrimaryKey Dari Table Terkait
+        return $this->belongsToMany(Tag::class, 'blog_post_tag', 'blog_post_id', 'tag_id', 'id', 'id')->withTimestamps();
     }
 
     // * Cara membuat local query scopes

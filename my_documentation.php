@@ -13,7 +13,7 @@
     * Note Mengenai Relation [One To One] And [One To Many] : 
 
     ? Relationship Insert Data
-    ? $author adalah primaryKey Sedangkan $profile adalah foreignKey
+    ? $author adalah primaryKey Sedangkan $profile adalah yang menerima foreignKey
     ! 1. $author->profile()->save($profile);
     ! 2. $profile->author()->associate($author)->save();
 
@@ -275,6 +275,77 @@
 
     * Cara Menghapus Semua cache::tags yang terhubung
     ? Cache::tags(['artist'])->flush()
+
+    // =======================================================================================================================
+
+    * +++ Many To Many Relation +++
+
+    * Cara membuat instansiasi modelnya check BlogPosts.php / Tags.php 
+
+    // =======================================================================================================================
+
+    * Cara Cara Storing Data Many To Many
+
+    ! Defaultnya timestamps tidak ikut disertakan jadi kalau mau diikutsertakan check BlogPosts.php method tags()
+    // =======================================================================================================================
+
+    ? Pertama dengan menggunakan attach
+
+    * $blogposts->tags()->attach($tag)
+    ? Cara menambahkan banyak data secara langsung dengan menggunakan attach
+    * $blogposts->tags()->attach([$tag1->id, $tag2->id])
+
+    ! Catatan menstore data dengan menggunakan attach sangat tidak direkomendasikan, ini karena data akan menjadi duplikat
+    ! Response setelah function attach dijalankan adalah null
+
+    // =======================================================================================================================
+
+    ? Kedua dengan menggunakan syncWithoutDetaching
+    
+    * $blogposts->tags()->syncWithoutDetaching($tag)
+    ? Cara menambahkan banyak data secara langsung dengan menggunakan attach
+    * $blogposts->tags()->syncWithoutDetaching([$tag->id])
+    
+    ! Gunakan syncWithoutDetaching jika anda ingin data semuanya unique tidak ada yang sama
+    ! Response saat syncWithoutDetaching selesai dijalankan : 
+    !   [
+    !       "attached" => [
+    !           2, 3  // id dari tags yang berhasil di masukkan
+    !       ],
+    !       "detached" => [],
+    !       "updated" => [],
+    !   ]
+
+    // =======================================================================================================================
+
+    ? Ketga dengan menggunakan sync
+    * $blogposts->tags()->sync($tag)
+    ? Cara menambahkan banyak data secara langsung dengan menggunakan attach
+    * $blogposts->tags()->sync([$tag->id])
+    
+    ! Gunakan sync() jika anda ingin data semuanya unique tidak ada yang sama dan jika ada yang sama akan dihapus
+    ! Response saat sync() selesai dijalankan : 
+    !   [
+    !       "attached" => [
+    !           2, 3  // id dari tags yang berhasil di masukkan
+    !       ],
+    !       "detached" => [
+    !           1, 3 // id tags yang dihapus karena sama
+    !       ],
+    !       "updated" => [],
+    !   ]
+
+    * Fun Fact
+    ? Cara menghapus semua tag secara langsung menggunakan sync
+    * $blogposts->tags()->sync([])
+
+    // =======================================================================================================================
+    
+    ? Cara Menghapus Relation Many To Many
+
+    * $blogposts->tags()->detach($tag);
+    ? Jika ingin menghapus sekaligus
+    * $blogposts->tags()->detach([$tag->id, $tag2->id]);
 
     // =======================================================================================================================
 
