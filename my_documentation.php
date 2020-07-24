@@ -6,6 +6,12 @@
     ? Perdbedaan find dengan where
     ! Kalau where itu menghasilkan multiple data tetapi find menghasilkan single data
 
+    ? Command yang mungkin anda cari
+
+    ! php artisan clear-compiled 
+    ! composer dump-autoload
+    ! php artisan optimize
+
     // =======================================================================================================================
 
     * +++ QUERY RELATIONSHIP +++
@@ -349,4 +355,8 @@
 
     // =======================================================================================================================
 
+    ? Cara mendapatkan data dari many to many
+
+    * Contoh : 
+    * $blogpost = BlogPosts::with('tags')->find(1);
 */

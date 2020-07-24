@@ -47,7 +47,8 @@ class BlogPosts extends Model
         // * Parameter Keempat Adalah foregin key yang lain yang terhubung juga
         // * Parameter Kelima Adalah PrimaryKey Dari Table Kita, Karena Ini Di Table blog_posts maka Primarynya adalah id
         // * Parameter Keenam Adalah PrimaryKey Dari Table Terkait
-        return $this->belongsToMany(Tag::class, 'blog_post_tag', 'blog_post_id', 'tag_id', 'id', 'id')->withTimestamps();
+        // * as('tagged') untuk mengaliaskan pivot
+        return $this->belongsToMany(Tag::class, 'blog_post_tag', 'blog_post_id', 'tag_id', 'id', 'id')->withTimestamps()->as('tagged');
     }
 
     // * Cara membuat local query scopes

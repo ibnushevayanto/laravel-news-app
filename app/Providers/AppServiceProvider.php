@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('Components.badge', 'badge');
         Blade::component('Components.date', 'date-upload');
         Blade::component('Components.datacard', 'data-card');
+        Blade::component('Components.tags', 'data-tags');
+        Blade::component('Components.BlogPost.blogpostslist', 'blogposts-list');
     }
 
     /**
