@@ -35,7 +35,9 @@ class BlogPostController extends Controller
     {
         // * Cara menggunakan local query scope liat method latest pada code dibawah ini
         // ? Cara menggunakan local query scope pada child relation, liat method show. with comments
-        $data = BlogPosts::latest()->withCount(['comments as jumlah_komentar'])->with(['user', 'tags'])->get();
+        $data = Cache::tags(['blog-post'])->remember('all-blogpost', 600, function () {
+            return BlogPosts::latest()->withCount(['comments as jumlah_komentar'])->with(['user', 'tags'])->get();
+        });
 
         // * Cara membuat cache
 
@@ -129,7 +131,7 @@ class BlogPostController extends Controller
         // * Cara kedua menggunakan query local scope pada child relation adalah dengan langsung pada methods comments di BlogPosts Model. silahkan dicheck
 
         $data = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 600, function () use ($id) {
-            return BlogPosts::withCount('comments as jumlah_komentar')->with('comments')->findOrFail($id);
+            return BlogPosts::withCount('comments as jumlah_komentar')->with(['comments', 'tags', 'user'])->findOrFail($id);
         });
 
         // ? Start fitur siapa yang sedang melihat blogpost

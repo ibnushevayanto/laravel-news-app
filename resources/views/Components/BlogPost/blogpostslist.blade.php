@@ -2,7 +2,18 @@
 <div class="col-md-6 px-2 py-2">
     <div style="background-color: white; position: relative; height: 100%;" class="px-3 py-3 mr-3 mb-3">
         {{-- Title --}}
-
+        <a href="{{route('blogpost.show', ['blogpost' => $item->id])}}"
+            class="{{ $item->trashed() ? 'text-muted' : '' }}">
+            <h2 class="font-weight-bold d-inline-block">
+                @if ($item->trashed())
+                <del>
+                    @endif
+                    {{$item->title}}
+                    @if ($item->trashed())
+                </del>
+                @endif
+            </h2>
+        </a>
         {{-- End Title --}}
 
         {{-- Tags --}}

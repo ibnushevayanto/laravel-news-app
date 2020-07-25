@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             ? Setelah membuat database seeder, sebelum menggenerate jalankan terlebih dahulu 
             ! composer dump-autoload
         */
-        $this->call([UsersTableSeeder::class, BlogPostsTableSeeder::class, CommentsTableSeeder::class]);
+        $this->call([UsersTableSeeder::class, TagsTableSeeder::class, BlogPostsTableSeeder::class, CommentsTableSeeder::class]);
     }
 }

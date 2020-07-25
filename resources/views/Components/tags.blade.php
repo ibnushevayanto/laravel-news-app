@@ -1,5 +1,6 @@
 <div>
     @foreach ($tags as $tag)
-    <span class="badge badge-primary">{{$tag->name}}</span>
+    <a href="{{ route('blogpost.tag', ['tag_id' => $tag->id]) }}"><span
+            class="badge badge-{{ isset($color) ? $color : 'primary' }} {{ (isset($large)) ? ' large-text' : ''}}">{{$tag->name}}</span></a>
     @endforeach
 </div>

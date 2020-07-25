@@ -329,7 +329,7 @@
     ? Cara menambahkan banyak data secara langsung dengan menggunakan attach
     * $blogposts->tags()->sync([$tag->id])
     
-    ! Gunakan sync() jika anda ingin data semuanya unique tidak ada yang sama dan jika ada yang sama akan dihapus
+    ! Gunakan sync() jika anda ingin data semuanya unique tidak ada yang sama dan diperbarui
     ! Response saat sync() selesai dijalankan : 
     !   [
     !       "attached" => [

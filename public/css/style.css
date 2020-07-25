@@ -14,3 +14,7 @@ a {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 }
+
+.large-text {
+    font-size: 1rem;
+}
