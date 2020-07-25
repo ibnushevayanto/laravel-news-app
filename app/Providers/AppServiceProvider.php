@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\ActivityComposer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('Components.BlogPost.blogpostslist', 'blogposts-list');
         Blade::component('Components.BlogPost.blogpost', 'blogpost');
         Blade::component('Components.BlogPost.komentarblogpost', 'komentar-blogpost');
+
+        // * Cara Menggunakan Views Composer
+        // * Parameter pertama adalah direktori dari file views yang diinginkan auto load
+        // * Parameter kedua adalah Class Composer yang ingin digunakan
+        view()->composer('BlogPost.daftarblogpost', ActivityComposer::class);
+        view()->composer('BlogPost.Tag.daftarblogpost', ActivityComposer::class);
     }
 
     /**

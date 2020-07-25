@@ -359,4 +359,13 @@
 
     * Contoh : 
     * $blogpost = BlogPosts::with('tags')->find(1);
+
+    // =======================================================================================================================
+
+    * +++ Blade View Composer +++
+
+    * Artinya ini adalah parameter bawaan setiap kita mereturn view jadi tidak perlu lagi menulis syntax lagi
+
+    * Cara membuat Blade View Composer 
+    ? Silahkan Check app/Http/ViewComposers/ActivityComposer
 */

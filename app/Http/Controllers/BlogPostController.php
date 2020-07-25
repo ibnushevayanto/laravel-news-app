@@ -41,30 +41,19 @@ class BlogPostController extends Controller
 
         // * Cara membuat cache
 
-        $mostCommented = Cache::tags(['blog-post'])->remember('most-commented', 600, function () {
-            return BlogPosts::mostCommented()->take(5)->get();
-        });
-
-
         // * Automatis terdeteksi logic dari cache
         // * Logic nya ialah Jika ada di cache akan mengambil dari cache jika tidak akan fetch dari database
         // * Parameter pertama dari cache::remember adalah nama dari cache tersebut
         // * Parameter kedua dari cache::remember adalah waktu tersimpannya cache tersebut. [Dalam hitungan sekon]
         // * Parameter ketiga dari cache::remember adalah data yang ingin disimpan
 
-        $mostUserWrittenBlogPost = Cache::tags(['blog-post'])->remember('most-user-written-blog-post', 600, function () {
-            return User::mostWrittenBlog()->take(5)->get();
-        });
-
-        $mostActiveUserLastMonth = Cache::tags(['blog-post'])->remember('most-active-user-last-month', 600, function () {
-            return User::mostActiveUserLastMonth()->take(5)->get();
+        $mostCommented = Cache::tags(['blog-post'])->remember('most-commented', 600, function () {
+            return BlogPosts::mostCommented()->take(5)->get();
         });
 
         return view('BlogPost.daftarblogpost', [
             'blogpost' => $data,
-            'most_commented' => $mostCommented,
-            'most_user_written_blogpost' => $mostUserWrittenBlogPost,
-            'most_active_user_last_month' => $mostActiveUserLastMonth
+            'most_commented' => $mostCommented
         ]);
     }
 

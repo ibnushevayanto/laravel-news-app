@@ -44,7 +44,7 @@ Auth::routes();
 // * Mengamankan Route Menggunakan Gate
 Route::get('secret', 'PageController@secret')->name('secret')->middleware('can:page.secret');
 
-Route::get('blogpost/tag/{tag_id}', 'BlogPostTagController@index')->name('blogpost.tag');
+Route::get('blogpost/tag/{tag_id}', 'BlogPostTagController@index')->name('blogpost.tags.index');
 
 /* 
     ? Cara Mengamankan Route

@@ -31,6 +31,17 @@
 
             <x-data-card title="Most Commented" subtitle="Blog {{ $tag->name }} paling banyak dibicarakan."
                 :items="$most_commented->blogposts" flag="blogposts"></x-data-card>
+
+            {{-- Container Most Active User --}}
+            <x-data-card title="Most Active User" subtitle="Penulis paling aktif membagikan cerita."
+                :items="collect($most_user_written_blogpost)->pluck('name')" addMarginTop></x-data-card>
+            {{-- End Container Most Active User --}}
+
+            {{-- Container Most Active User Last Month --}}
+            <x-data-card title="Most Active User Last Month"
+                subtitle="Penulis paling aktif membagikan cerita bulan ini."
+                :items="collect($most_active_user_last_month)->pluck('name')" addMarginTop></x-data-card>
+            {{-- End Container Most Active User Last Month --}}
         </div>
     </div>
 </div>
