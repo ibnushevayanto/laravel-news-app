@@ -39,6 +39,8 @@ Route::get('contact', 'PageController@contact')->name('contact');
 
 Route::resource('blogpost', 'BlogPostController');
 
+Route::resource('blogpost.comment', 'CommentController')->only(['store', 'edit', 'update', 'destroy']);
+
 Auth::routes();
 
 // * Mengamankan Route Menggunakan Gate

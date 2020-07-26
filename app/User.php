@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->hasMany(BlogPosts::class, 'user_id', 'id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
+
     public function scopeMostWrittenBlog(Builder $query)
     {
         return $query->withCount('blogposts as jumlah_blog')->orderBy('jumlah_blog', 'desc');

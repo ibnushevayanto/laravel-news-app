@@ -7,6 +7,9 @@ use App\BlogPosts;
 
 class Tag extends Model
 {
+
+    protected $fillable = ['name'];
+
     public function blogposts()
     {
         // * Penjelasan Parameter Check Pada BlogPosts.php

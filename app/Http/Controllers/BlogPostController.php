@@ -120,7 +120,9 @@ class BlogPostController extends Controller
         // * Cara kedua menggunakan query local scope pada child relation adalah dengan langsung pada methods comments di BlogPosts Model. silahkan dicheck
 
         $data = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 600, function () use ($id) {
-            return BlogPosts::withCount('comments as jumlah_komentar')->with(['comments', 'tags', 'user'])->findOrFail($id);
+            return BlogPosts::withCount('comments as jumlah_komentar')->with(['comments' => function ($query) {
+                $query->with('user');
+            }, 'tags', 'user'])->findOrFail($id);
         });
 
         // ? Start fitur siapa yang sedang melihat blogpost

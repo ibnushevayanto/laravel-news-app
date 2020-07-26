@@ -12,13 +12,18 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        Tag::insert([
-            ['name' => 'Science', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Politics', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Sports', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Technology', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Crime', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Entertaiment', 'created_at' => now(), 'updated_at' => now()],
+        $tag = collect([
+            ['name' => 'Science'],
+            ['name' => 'Politics'],
+            ['name' => 'Sports'],
+            ['name' => 'Technology'],
+            ['name' => 'Crime'],
+            ['name' => 'Entertaiment'],
+            ['name' => 'Economy']
         ]);
+
+        $tag->each(function ($tagName) {
+            Tag::create($tagName);
+        });
     }
 }

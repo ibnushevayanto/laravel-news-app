@@ -28,8 +28,11 @@ class AppServiceProvider extends ServiceProvider
         // * Cara Menggunakan Views Composer
         // * Parameter pertama adalah direktori dari file views yang diinginkan auto load
         // * Parameter kedua adalah Class Composer yang ingin digunakan
-        view()->composer('BlogPost.daftarblogpost', ActivityComposer::class);
-        view()->composer('BlogPost.Tag.daftarblogpost', ActivityComposer::class);
+
+        view()->composer(['BlogPost.daftarblogpost', 'BlogPost.Tag.daftarblogpost'], ActivityComposer::class);
+
+        // * Jika ingin berlaku pada semua views
+        // ! view()->composer('*', ActivityComposer::class);
     }
 
     /**

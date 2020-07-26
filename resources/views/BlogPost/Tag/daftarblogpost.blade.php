@@ -1,12 +1,12 @@
 @extends('Layout.default')
 
-@section('title', 'Daftar BlogPost')
+@section('title', "Daftar Blog Post {$tag->name}")
 
 @section('content')
 <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-md-12">
-            <x-data-tags :tags="$all_tags" large color="success"></x-data-tags>
+            <x-data-tags :tags="$all_tags" menu :namatag="$tag->name"></x-data-tags>
         </div>
     </div>
     <div class="row mb-4">
