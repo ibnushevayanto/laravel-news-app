@@ -6,22 +6,23 @@ use App\BlogPosts;
 use App\Http\Requests\PostRequest;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class BlogPostController extends Controller
 {
 
     public function __construct()
     {
-        /* 
-            * Cara Mengamankan Route Dengan Menggunakan Controller
-            ? Attribute Yang Bisa Digunakan Ialah 
-            ! only([]) dan except([])
+        /*
+         * Cara Mengamankan Route Dengan Menggunakan Controller
+        ? Attribute Yang Bisa Digunakan Ialah
+        ! only([]) dan except([])
 
-            * contoh penggunaan
-            ! $this->middleware('auth')->only(['create', 'store]);
-        */
+         * contoh penggunaan
+        ! $this->middleware('auth')->only(['create', 'store]);
+         */
 
         $this->middleware('auth')->except(['index', 'show']);
     }
@@ -53,7 +54,7 @@ class BlogPostController extends Controller
 
         return view('BlogPost.daftarblogpost', [
             'blogpost' => $data,
-            'most_commented' => $mostCommented
+            'most_commented' => $mostCommented,
         ]);
     }
 
@@ -88,14 +89,23 @@ class BlogPostController extends Controller
         //     'content' => 'bail|required',
         // ]);
 
-        /*
-        ? End Of Request Validation
-         */
-
         $validatedData = $request->validated();
         $validatedData['user_id'] = $request->user()->id;
 
+        // ? End Of Request Validation
+
         $blogpost = BlogPosts::create($validatedData);
+
+        // ? File Upload
+
+        $hasFile = $request->hasFile('cover');
+
+        if ($hasFile) {
+
+        }
+        die;
+
+        // ? End File Upload
 
         $request->session()->flash('status', 'News Was Created!');
 
@@ -142,11 +152,11 @@ class BlogPostController extends Controller
 
         foreach ($users as $session => $lastVisit) {
             /*
-                * Cache dari variabel $users dilooping
-                * logicnya jika waktu users dari waktu sekarang dengan value lebih dari satu menit
-                * maka akan dibaca expired
-                * jika tidak akan disimpan di tempat penyimpanan sementara yaitu variable $usersUpdate
-            */
+             * Cache dari variabel $users dilooping
+             * logicnya jika waktu users dari waktu sekarang dengan value lebih dari satu menit
+             * maka akan dibaca expired
+             * jika tidak akan disimpan di tempat penyimpanan sementara yaitu variable $usersUpdate
+             */
             if ($now->diffInMinutes($lastVisit) >= 1) {
                 $diffrence--;
             } else {
@@ -155,10 +165,10 @@ class BlogPostController extends Controller
         }
 
         /*
-            * Jika didalam cache $users masih fresh atau tidak ada key yang sama dengan $sessionId
-            * Atau ada yang sama keynya tetapi sudah expired maka akan dibuat kembali
-            * Ini karena pada saat foreach diatas kita menghilangkan karena sudah expired dan dibuat yang baru
-        */
+         * Jika didalam cache $users masih fresh atau tidak ada key yang sama dengan $sessionId
+         * Atau ada yang sama keynya tetapi sudah expired maka akan dibuat kembali
+         * Ini karena pada saat foreach diatas kita menghilangkan karena sudah expired dan dibuat yang baru
+         */
         if (
             !array_key_exists($sessionId, $users) ||
             $now->diffInMinutes($users[$sessionId]) >= 1
@@ -172,13 +182,13 @@ class BlogPostController extends Controller
         // * Store ke cache selamanya nilai dari $usersUpdate
         Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
 
-        /* 
-            * Jika cache tidak punya key seperti variable $counterKey
-            * Maka akan membuat cache dengan key $counterKey 
-            * Kenapa harus melakukan itu ? 
-            * Karena logic diatas kita hanya mengecheck yang sudah satu menit atau yang sudah expired jadi kita harus membuat baru
-            * Jika sudah ada maka nilai akan di increment dari nilai diffrence
-        */
+        /*
+         * Jika cache tidak punya key seperti variable $counterKey
+         * Maka akan membuat cache dengan key $counterKey
+         * Kenapa harus melakukan itu ?
+         * Karena logic diatas kita hanya mengecheck yang sudah satu menit atau yang sudah expired jadi kita harus membuat baru
+         * Jika sudah ada maka nilai akan di increment dari nilai diffrence
+         */
         $counterKey = "blog-post-{$id}-counter";
         if (!Cache::tags(['blog-post'])->has($counterKey)) {
             Cache::tags(['blog-post'])->forever($counterKey, 1);
@@ -202,10 +212,10 @@ class BlogPostController extends Controller
     {
         $post = BlogPosts::findOrFail($id);
 
-        /* 
-            ? Gate::denies
-            ? Adalah jika kondisi ditolak akan menghasilkan nilai boolean
-        */
+        /*
+        ? Gate::denies
+        ? Adalah jika kondisi ditolak akan menghasilkan nilai boolean
+         */
 
         // * Jikalau Policy Sudah Didaftarkan Check Di AuthServiceProvider.php line 15
         if (Gate::denies('update', $post)) {
@@ -235,9 +245,9 @@ class BlogPostController extends Controller
         $dataValidated['user_id'] = $request->user()->id;
 
         /*
-            ? Wajib Menggunakan find() Tidak Boleh Menggunakan where() 
-            ? Agar Ketrigger Pada Model Event Update
-        */
+        ? Wajib Menggunakan find() Tidak Boleh Menggunakan where()
+        ? Agar Ketrigger Pada Model Event Update
+         */
 
         $post->update($dataValidated);
 

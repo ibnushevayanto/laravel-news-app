@@ -19,8 +19,12 @@
 </div>
 <div class="form-group">
     <label for="contentInput">Content</label>
-    <textarea class="form-control" id="contentInput" rows="3" name="content"
+    <textarea class="form-control" id="contentInput" rows="5" name="content"
         placeholder="Content">{{ old('content', $blogpost->content ?? NULL) }}</textarea>
+</div>
+<div class="form-group">
+    <label for="coverInput">Cover</label>
+    <input type="file" class="form-control-file" name="cover" id="coverInput">
 </div>
 <div class="text-right">
     <button class="btn btn-primary btn-block" type="submit">Simpan</button>

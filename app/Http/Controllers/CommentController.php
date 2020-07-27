@@ -25,11 +25,9 @@ class CommentController extends Controller
     public function store(BlogPosts $blogpost, CommentRequest $request)
     {
         $validatedData = $request->validated();
-        $validatedData['blog_post_id'] = $blogpost->id;
         $validatedData['user_id'] = Auth::id();
 
-        Comment::create($validatedData);
-
+        $blogpost->comments()->create($validatedData);
 
         $request->session()->flash('status', 'Komentar berhasil dibuat');
 
