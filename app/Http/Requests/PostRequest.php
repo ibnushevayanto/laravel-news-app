@@ -26,6 +26,7 @@ class PostRequest extends FormRequest
         return [
             'title' => 'bail|required|max:100',
             'content' => 'bail|required',
+            'cover' => 'image|mimes:jpg,jpeg,png|max:1024'
         ];
     }
 }

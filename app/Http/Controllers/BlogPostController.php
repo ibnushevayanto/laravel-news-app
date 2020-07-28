@@ -101,9 +101,10 @@ class BlogPostController extends Controller
         $hasFile = $request->hasFile('cover');
 
         if ($hasFile) {
-
+            $file = $request->file('cover');
+            $path = Storage::disk('public')->put('covers', $file);
+            $blogpost->image()->create(['path' => $path, 'blog_post_id' => $blogpost->id]);
         }
-        die;
 
         // ? End File Upload
 
@@ -132,7 +133,7 @@ class BlogPostController extends Controller
         $data = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 600, function () use ($id) {
             return BlogPosts::withCount('comments as jumlah_komentar')->with(['comments' => function ($query) {
                 $query->with('user');
-            }, 'tags', 'user'])->findOrFail($id);
+            }, 'tags', 'user', 'image'])->findOrFail($id);
         });
 
         // ? Start fitur siapa yang sedang melihat blogpost
@@ -250,6 +251,21 @@ class BlogPostController extends Controller
          */
 
         $post->update($dataValidated);
+
+        $hasFile = $request->hasFile('cover');
+
+        if ($hasFile) {
+
+            $file = $request->file('cover');
+            $path = Storage::disk('public')->put('covers', $file);
+
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image->path);
+                $post->image()->update(['path' => $path, 'blog_post_id' => $post->id]);
+            } else {
+                $post->image()->update(['path' => $path]);
+            }
+        }
 
         $request->session()->flash('status', 'News Was Edited!');
 

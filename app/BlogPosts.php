@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use App\Tag;
+use App\Image;
+use Illuminate\Support\Facades\Storage;
 
 class BlogPosts extends Model
 {
@@ -35,6 +37,11 @@ class BlogPosts extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class, 'blog_post_id', 'id');
     }
 
     // * Cara Instansiasi Model Many To Many
@@ -128,6 +135,8 @@ class BlogPosts extends Model
                 $logAktivity->save();
             }
 
+            Storage::disk('public')->delete($blogpost->image->path);
+            $blogpost->image()->delete();
             $blogpost->comments()->delete();
         });
 

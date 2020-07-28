@@ -17,9 +17,14 @@
 
     <x-date-upload date="{{ $blogpost->created_at->diffForHumans() }}" name="{{ $blogpost->user->name }}">
     </x-date-upload>
-    <div class="text-muted">
+    <div class="text-muted mb-3">
         <b><i class="fa fa-eye"></i> {{ $watched }}</b>
     </div>
+    @if (isset($blogpost->image))
+    <div class="d-flex justify-content-center">
+        <img src="{{ $blogpost->image->url()  }}" alt="" style="max-width: 100%">
+    </div>
+    @endif
     <div class="content mt-4">
         <h5 class="text-muted font-weight-bold" style="line-height: 30px">
             {{ $blogpost->content }}

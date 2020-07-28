@@ -461,4 +461,22 @@
 
 // =======================================================================================================================
 
+ * cara mendapatkan url gambar
+
+! $file = $request->file('cover');
+! $fileupload = Storage::disk('public')->putFileAs('covers', $file, $blogpost->id . "." . $file->guessExtension());
+! dump(Storage::disk('public')->url($fileupload));
+
+? Contoh penggunaan bisa dicheck pada detailblogpost
+
+// =======================================================================================================================
+
+* menghapus file
+
+! $path = Storage::disk('public')->put('covers', $file);
+! Storage::disk('public')->delete($path);
+
+// =======================================================================================================================
+
+
  */
