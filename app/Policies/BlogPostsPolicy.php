@@ -6,7 +6,7 @@ use App\BlogPosts;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BlogPostPolicy
+class BlogPostsPolicy
 {
     use HandlesAuthorization;
 
@@ -18,7 +18,7 @@ class BlogPostPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class BlogPostPolicy
      */
     public function view(User $user, BlogPosts $blogPosts)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class BlogPostPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class BlogPostPolicy
      */
     public function restore(User $user, BlogPosts $blogPosts)
     {
-        //
+        return true;
     }
 
     /**
@@ -89,6 +89,6 @@ class BlogPostPolicy
      */
     public function forceDelete(User $user, BlogPosts $blogPosts)
     {
-        //
+        return true;
     }
 }

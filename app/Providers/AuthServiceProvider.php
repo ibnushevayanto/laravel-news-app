@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\BlogPosts;
+use App\Policies\BlogPostsPolicy;
+use App\Policies\UserPolicy;
+use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        BlogPosts::class => 'App\Policies\BlogPostPolicy',
+        BlogPosts::class => BlogPostsPolicy::class,
+        User::class => UserPolicy::class
     ];
 
     /**
@@ -56,6 +60,7 @@ class AuthServiceProvider extends ServiceProvider
             Gate::define('blogpost.update', 'App\Policies\BlogPostPolicy@update');
             Gate::define('blogpost.delete', 'App\Policies\BlogPostPolicy@delete');
         */
+
 
         // * Cara Kedua, Dengan Mendefine Sekaligu
 

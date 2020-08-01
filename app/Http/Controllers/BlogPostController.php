@@ -65,6 +65,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
+        $this->authorize(BlogPosts::class);
         return view('BlogPost.tambahblogpost');
     }
 
@@ -219,9 +220,7 @@ class BlogPostController extends Controller
          */
 
         // * Jikalau Policy Sudah Didaftarkan Check Di AuthServiceProvider.php line 15
-        if (Gate::denies('update', $post)) {
-            abort(403, 'You cant edit the blogpost');
-        }
+        $this->authorize($post);
 
         return view('BlogPost.editblogpost', ['blogpost' => $post]);
     }
@@ -238,9 +237,7 @@ class BlogPostController extends Controller
 
         $post = BlogPosts::findOrFail($id);
 
-        if (Gate::denies('update', $post)) {
-            abort(403);
-        }
+        $this->authorize($post);
 
         $dataValidated = $request->validated();
         $dataValidated['user_id'] = $request->user()->id;
@@ -286,7 +283,7 @@ class BlogPostController extends Controller
         // $this->authorize('blogpost.delete', $blogpost);
 
         // * Jikalau Policy Sudah Didaftarkan Check Di AuthServiceProvider.php line 15
-        $this->authorize('delete', $blogpost);
+        $this->authorize($blogpost);
 
         $request->session()->flash('status', $blogpost->title . ' was deleted');
         $blogpost->delete();

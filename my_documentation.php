@@ -190,6 +190,27 @@
 
 // =======================================================================================================================
 
+* Cara Kerja Policy
+? Dia dibind by Model
+? saat @can('update', $item)
+? Maka $item akan dicheck dia menggunakan model apa
+
+// =======================================================================================================================
+
+* Cara auhtorize policy
+
+! $this->authorize('create', BlogPosts::class);
+? Minimal harus ada collection dari Data Model
+
+* Jika Sudah Terdaftar Bisa Langsung Begini
+! $this->authorize(BlogPosts::class);
+
+* Jika Menggunakan Gate::denies()
+? Harus Menggunakan Nama Method Policynya
+! Gate::denies('update', BlogPosts::find(11))
+
+// =======================================================================================================================
+
  * Cara Mengamankan Route Menggunakan Middleware & Gate
 ? Check di web.php
 
