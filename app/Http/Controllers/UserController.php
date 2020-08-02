@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BlogPosts;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,9 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->authorizeResource(User::class, 'memek');
+
+        // * Parameter Pertama authorizeResource adalah Model dan parameter kedua adalah parameter yang dipakek
+        $this->authorizeResource(User::class, 'user');
     }
 
     /**
@@ -53,7 +56,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $blogpost = BlogPosts::where('user_id', '=', $user->id)->get();
+        return view('User.showuser', ['user' => $user, 'blogpost' => $blogpost]);
     }
 
     /**
@@ -64,7 +68,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('User.edituser', ['user' => $user]);
     }
 
     /**

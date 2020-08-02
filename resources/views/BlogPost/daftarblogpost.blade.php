@@ -9,7 +9,7 @@
             <h1 class="display-5">Daftar Blog</h1>
         </div>
         <div class="col-md-6 text-right">
-            <a class="btn btn-primary text-white" href="{{route('blogpost.create')}}">Tambah Blog</a>
+            <a class="btn btn-primary text-white" href="{{route('blogpost.create')}}"><i class="fa fa-plus"></i></a>
         </div>
     </div>
     <div class="row">

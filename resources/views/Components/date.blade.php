@@ -1,6 +1,6 @@
 <p class="text-muted">
     {{ empty(trim($slot)) ? 'Added' : $slot }} {{ $date }}
-    @if (isset($name))
-    by <b>{{ $name }}</b>
+    @if (isset($user))
+    by <a href="{{ route('user.show', ['user' => $user->id]) }}"><b>{{ $user->name }}</b></a>
     @endif
 </p>

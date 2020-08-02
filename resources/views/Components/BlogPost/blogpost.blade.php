@@ -15,7 +15,7 @@
     {{-- Ini adalah cara kedua membuat component --}}
     {{-- Cara menggunakan component yang sudah di instansiasi --}}
 
-    <x-date-upload date="{{ $blogpost->created_at->diffForHumans() }}" name="{{ $blogpost->user->name }}">
+    <x-date-upload date="{{ $blogpost->created_at->diffForHumans() }}" :user="$blogpost->user">
     </x-date-upload>
     <div class="text-muted mb-3">
         <b><i class="fa fa-eye"></i> {{ $watched }}</b>

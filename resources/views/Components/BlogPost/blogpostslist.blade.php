@@ -40,7 +40,7 @@
 
             {{-- View Tanggal Upload --}}
             {{-- diffForHumans() untuk merubah waktu dari aneh menjadi format yang bisa dibaca manusia --}}
-            <x-date-upload name="{{ $item->user->name }}" date="{{ $item->created_at->diffForHumans() }}">
+            <x-date-upload :user="$item->user" date="{{ $item->created_at->diffForHumans() }}">
             </x-date-upload>
             {{-- Tanggal Upload --}}
 

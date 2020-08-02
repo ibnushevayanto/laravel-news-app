@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <title>BlogPost - @yield('title')</title>
+    <title>Blogpost - @yield('title')</title>
     <script src="{{ asset('js/app.js') }}" async></script>
     <script src="{{asset('js/script.js')}}" async></script>
 </head>
@@ -59,13 +59,7 @@
                 @else
 
                 {{-- Logout --}}
-                <a href="#" class="nav-item nav-link" onclick="logout('{{route('login')}}')">Logout
-                    ({{ Auth::user()->name }})</a>
-
-                <form action="{{ route('logout') }}" method="POST" id="logout-proccess" style="display: none;">
-                    @csrf
-                </form>
-
+                <a href="{{ route('user.show', ['user' => Auth::id()]) }}" class="nav-item nav-link">Profile</a>
                 @endguest
             </div>
         </div>

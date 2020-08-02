@@ -1,6 +1,6 @@
 @extends('Layout.default')
 
-@section('title', 'Detail BlogPost')
+@section('title', $blogpost->title)
 
 @section('content')
 <div class="container mt-4">
