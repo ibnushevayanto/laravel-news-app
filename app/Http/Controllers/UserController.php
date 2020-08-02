@@ -62,7 +62,12 @@ class UserController extends Controller
         $blogpost = Cache::tags(['blog-post'])->remember("blogpost-user-{$user->id}", 600, function () use ($user) {
             return BlogPosts::where('user_id', '=', $user->id)->get();
         });
-        return view('User.showuser', ['user' => $user, 'blogpost' => $blogpost]);
+
+        $komentar = User::with(['comments' => function ($query) {
+            $query->with('user');
+        }])->find($user->id);
+
+        return view('User.showuser', ['user' => $user, 'blogpost' => $blogpost, 'komentar' => $komentar]);
     }
 
     /**

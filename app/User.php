@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'user_id', 'id');
+        return $this->morphMany(Comment::class, 'comment_for', 'comment_for_type', 'comment_for_id', 'id')->latest();
     }
 
     public function scopeMostWrittenBlog(Builder $query)

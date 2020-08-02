@@ -37,12 +37,26 @@
         <div class="col-md-8">
             <h2>Blog</h2>
         </div>
+        <div class="col-md-4">
+            <h2>Komentar</h2>
+        </div>
     </div>
     <div class="row mt-3">
         <div class="col-md-8">
             <div class="row">
                 <x-blogposts-list :blogpost="$blogpost"></x-blogposts-list>
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @auth
+                <form action="{{ route('user.comment.store', ['user' => $user->id]) }}" method="POST" id="formkomentar">
+                    @csrf
+                    @include('Components.Komentar._form_komentar')
+                </form>
+                @endauth
+            </div>
+            <x-list-komentar-blogpost :comments="$komentar->comments"></x-list-komentar-blogpost>
         </div>
     </div>
 </div>

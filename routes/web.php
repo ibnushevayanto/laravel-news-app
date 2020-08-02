@@ -41,6 +41,7 @@ Route::resource('blogpost', 'BlogPostController');
 Route::resource('user', 'UserController')->only(['show', 'edit', 'update']);
 // * Agar bisa mendapatkan blogpost id nya pada store
 Route::resource('blogpost.comment', 'CommentController')->only(['store', 'edit', 'update', 'destroy']);
+Route::resource('user.comment', 'UserComment')->only(['store']);
 
 Auth::routes();
 

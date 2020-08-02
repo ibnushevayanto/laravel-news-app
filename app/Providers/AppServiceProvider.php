@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('Components.BlogPost.blogpostslist', 'blogposts-list');
         Blade::component('Components.BlogPost.blogpost', 'blogpost');
         Blade::component('Components.BlogPost.komentarblogpost', 'komentar-blogpost');
+        Blade::component('Components.Komentar.list_komentar', 'list-komentar-blogpost');
 
         // * Cara Menggunakan Views Composer
         // * Parameter pertama adalah direktori dari file views yang diinginkan auto load

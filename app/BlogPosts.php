@@ -26,7 +26,17 @@ class BlogPosts extends Model
     public function comments()
     {
         // * Cara kedua menggunakan local query scope pada child relation
-        return $this->hasMany(Comment::class, 'blog_post_id', 'id')->latest();
+        // ! return $this->hasMany(Comment::class, 'blog_post_id', 'id')->latest();
+
+        // * Polymorph One To Many
+
+        // * Parameter Pertama Adalah Class Dari Polymorph
+        // * Parameter Kedua Nama Polymorph
+        // * Parameter Ketiga Adalah Nama column type polymorph
+        // * Parameter Keempat Adalah Nama column ID Polymorph
+        // * Parameter Kelima adalah primary key
+
+        return $this->morphMany(Comment::class, 'comment_for', 'comment_for_type', 'comment_for_id', 'id')->latest();
     }
 
     public function log_aktivities()

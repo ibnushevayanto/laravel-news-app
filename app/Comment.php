@@ -21,7 +21,7 @@ class Comment extends Model
     /*
         ? Nama Function Sesuaikan Dengan ForeignKey | Example Pada Nama FUnction Dibawah Ini blogPost = blog_post_id |
     */
-    public function blogPost()
+    public function comment()
     {
         /*
             ! Jika Foreign Key Dengan Function Tidak Ingin Sama Gunakan Parameter Kedua
@@ -31,7 +31,16 @@ class Comment extends Model
             ? $this->belongsTo(BlogPosts::class, 'foreign_key', 'primary_key')
         */
 
-        return $this->belongsTo(BlogPosts::class, 'blog_post_id', 'id');
+        // ! return $this->belongsTo(BlogPosts::class, 'blog_post_id', 'id');
+
+        // * Polymorph One To Many
+
+        // * Parameter Pertama Nama Dari Polymorphnya
+        // * Parameter Kedua Nama Dari Polymorph type nya
+        // * Parameter Ketiga Nama Dari Polymorph id nya
+        // * Parameter Keempat adalah PrimaryKey Table
+
+        return $this->morphTo('comment_for', 'comment_for_type', 'comment_for_id', 'id');
     }
 
     public function user()
