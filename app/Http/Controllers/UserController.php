@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\BlogPosts;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+
 
 class UserController extends Controller
 {
@@ -56,7 +58,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $blogpost = BlogPosts::where('user_id', '=', $user->id)->get();
+        $blogpost = Cache::tags(['blog-post'])->remember("blogpost-user-{$user->id}", 600, function () use ($user) {
+            return BlogPosts::where('user_id', '=', $user->id)->get();
+        });
         return view('User.showuser', ['user' => $user, 'blogpost' => $blogpost]);
     }
 

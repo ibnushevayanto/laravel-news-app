@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row mt-3">
-        <div class="col-md-12 text-right">
+        <div class="col-md-12 text-right bg-white pt-3">
             @can('update', $user)
             <div class="d-flex justify-content-between">
                 <a href="{{ route('user.edit', ['user' => $user->id]) }}" class="btn btn-primary"><i
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col md-12 text-center">
+        <div class="col md-12 text-center bg-white pb-3">
             <img src="{{ Storage::disk('local')->url('icons/no-image.png') }}" width="150" class="mb-3" height="150"
                 style="border-radius: 50%">
             <h1>{{ $user->name}}</h1>

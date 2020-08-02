@@ -59,7 +59,11 @@
                 @else
 
                 {{-- Logout --}}
-                <a href="{{ route('user.show', ['user' => Auth::id()]) }}" class="nav-item nav-link">Profile</a>
+                @php
+                $isLinkMengandungUser = in_array('user', explode('.', Route::currentRouteName()));
+                @endphp
+                <a href="{{ route('user.show', ['user' => Auth::id()]) }}"
+                    class="nav-item nav-link {{ ($isLinkMengandungUser) ? 'active' : '' }}">Profile</a>
                 @endguest
             </div>
         </div>

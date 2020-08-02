@@ -7,6 +7,19 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col-md-12">
+            <div>
+                <a href="{{ route('user.show', ['user' => $user->id]) }}" style="color: #acacac;">
+                    <i class="fa fa-arrow-left"></i> <span class="font-weight-bold">Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-3 bg-white p-5">
+    <div class="row">
+        <div class="col-md-12">
             <h1>Edit Profile</h1>
         </div>
     </div>

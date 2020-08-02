@@ -12,7 +12,9 @@
                 </a>
             </div>
             {{-- Container Info Blogpost --}}
-            <x-blogpost :blogpost="$blogpost" :watched="$watched"></x-blogpost>
+            <div class="bg-white px-3 py-4">
+                <x-blogpost :blogpost="$blogpost" :watched="$watched"></x-blogpost>
+            </div>
             {{-- End Container Info Blogpost --}}
         </div>
     </div>
