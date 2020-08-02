@@ -73,14 +73,20 @@
 
     {{-- Jika Session Memiliki Session status Maka Akan Muncul Alert --}}
     @if (session()->has('status'))
-    <div class="alert alert-success mx-5 mt-3" role="alert">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success mt-3" role="alert">
 
-        {{-- Mendapatkan Value Dari Session status --}}
-        {{ session()->get('status') }}
+                    {{-- Mendapatkan Value Dari Session status --}}
+                    {{ session()->get('status') }}
 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     @endif
 

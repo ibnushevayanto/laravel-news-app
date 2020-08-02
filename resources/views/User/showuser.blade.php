@@ -24,8 +24,12 @@
     </div>
     <div class="row">
         <div class="col md-12 text-center bg-white pb-3">
+            @if ($user->image)
+            <img src="{{ $user->image->url() }}" width="150" class="mb-3" height="150" style="border-radius: 50%">
+            @else
             <img src="{{ Storage::disk('local')->url('icons/no-image.png') }}" width="150" class="mb-3" height="150"
                 style="border-radius: 50%">
+            @endif
             <h1>{{ $user->name}}</h1>
         </div>
     </div>

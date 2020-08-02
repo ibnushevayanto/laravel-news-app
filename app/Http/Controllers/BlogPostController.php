@@ -104,7 +104,7 @@ class BlogPostController extends Controller
         if ($hasFile) {
             $file = $request->file('cover');
             $path = Storage::disk('public')->put('covers', $file);
-            $blogpost->image()->create(['path' => $path, 'blog_post_id' => $blogpost->id]);
+            $blogpost->image()->create(['path' => $path]);
         }
 
         // ? End File Upload
@@ -258,9 +258,9 @@ class BlogPostController extends Controller
 
             if ($post->image) {
                 Storage::disk('public')->delete($post->image->path);
-                $post->image()->update(['path' => $path, 'blog_post_id' => $post->id]);
-            } else {
                 $post->image()->update(['path' => $path]);
+            } else {
+                $post->image()->create(['path' => $path]);
             }
         }
 

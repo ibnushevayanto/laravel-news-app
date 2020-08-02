@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\Storage;
 
 class Image extends Model
 {
-    protected $fillable = ['path', 'blog_post_id'];
+    protected $fillable = ['path'];
 
-    public function blogpost()
+    public function image()
     {
-        return $this->belongsTo(BlogPosts::class, 'blog_post_id', 'id');
+        // * Parameter Pertama Nama Dari Polymorphnya
+        // * Parameter Kedua Nama Dari Polymorph type nya
+        // * Parameter Ketiga Nama Dari Polymorph id nya
+        // * Parameter Keempat adalah PrimaryKey Table
+
+        return $this->morphTo('image_for', 'image_for_type', 'image_for_id', 'id');
     }
 
     public function url()

@@ -41,7 +41,13 @@ class BlogPosts extends Model
 
     public function image()
     {
-        return $this->hasOne(Image::class, 'blog_post_id', 'id');
+        // * Parameter Pertama Adalah Class Dari Polymorph
+        // * Parameter Kedua Nama Polymorph
+        // * Parameter Ketiga Adalah Nama column type polymorph
+        // * Parameter Keempat Adalah Nama column ID Polymorph
+        // * Parameter Kelima adalah primary key
+
+        return $this->morphOne(Image::class, 'image_for', 'image_for_type', 'image_for_id', 'id');
     }
 
     // * Cara Instansiasi Model Many To Many

@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use App\LogAktivity;
 use App\BlogPosts;
 use Illuminate\Database\Eloquent\Builder;
+use App\Image;
 
 class User extends Authenticatable
 {
@@ -65,5 +66,10 @@ class User extends Authenticatable
         return $query->withCount(['blogposts as jumlah_blog' => function ($query) {
             $query->whereBetween('created_at', [now()->subMonths(1), now()]);
         }])->has('blogposts', '>', 2)->orderBy('jumlah_blog', 'desc');
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'image_for', 'image_for_type', 'image_for_id', 'id');
     }
 }

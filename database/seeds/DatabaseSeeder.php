@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->call('migrate:refresh');
+        $this->command->call('migrate:fresh');
         $this->command->info('Berhasil merefresh database');
 
         Cache::tags(['blog-post'])->flush();

@@ -499,5 +499,23 @@
 
 // =======================================================================================================================
 
+* Polymorph One To One
 
- */
+? Syarat Membuat Polymorph
+* Pada column yang ingin dibuat polymorph harus ada type dan idnya contoh :
+* image_for_id dan image_for_type
+* diatas adalah wajib
+
+? untuk membuat relasi database
+* check add_polymorph_to_image_table.php 
+
+? penjelasan untuk model relation pada images table
+* check Image.php pada method image()
+
+? penjelasan untuk model relation pada table yang akan menyimpan pada images table
+* check BlogPosts.php / User.php pada method image()
+
+? Untuk menstore data ke images php
+* check BlogPostController.php pada method store
+
+*/

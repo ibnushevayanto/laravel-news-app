@@ -6,7 +6,8 @@ use App\BlogPosts;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -82,9 +83,28 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        $validatedData = $request->validated();
+        $user->update($validatedData);
+
+        $hasfile = $request->hasFile('fotoprofil');
+
+        if ($hasfile) {
+            $file = $request->file('fotoprofil');
+            $path = Storage::disk('public')->put('profiles', $file);
+
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image->path);
+                $user->image()->update(['path' => $path]);
+            } else {
+                $user->image()->create(['path' => $path]);
+            }
+        }
+
+        $request->session()->flash('status', 'Profil Berhasil Diedit !');
+
+        return redirect()->route('user.show', ['user' => $user->id]);
     }
 
     /**
