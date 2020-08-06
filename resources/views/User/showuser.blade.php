@@ -50,11 +50,13 @@
         <div class="col-md-4">
             <div class="form-group">
                 @auth
+                @if (Auth::id() != $user->id)
                 <form action="{{ route('user.comment.store', ['user' => $user->id]) }}" method="POST" id="formkomentar">
                     @csrf
                     @include('Components.Komentar._form_komentar')
                 </form>
                 @endauth
+                @endif
             </div>
             <x-list-komentar-blogpost :comments="$komentar->comments"></x-list-komentar-blogpost>
         </div>
