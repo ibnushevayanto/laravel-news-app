@@ -27,10 +27,15 @@ class CommentsTableSeeder extends Seeder
         }
 
         $commentsCount = (int) $this->command->ask('Berapa jumlah komentar yang ingin anda input ? ', 100);
+
         factory(Comment::class, $commentsCount)->make()->each(function ($comment) use ($posts, $users) {
-            $comment->blog_post_id = $posts->random()->id;
-            $comment->user_id = $users->random()->id;
-            $comment->save();
+            $posts->random()->comments()->create(['user_id' => $users->random()->id, 'content' => $comment->content]);
+        });
+
+        factory(Comment::class, $commentsCount)->make()->each(function ($comment) use ($posts, $users) {
+            if ($users->random()->id != $posts->random()->id) {
+                $users->random()->comments()->create(['user_id' => $users->random()->id, 'content' => $comment->content]);
+            }
         });
     }
 }

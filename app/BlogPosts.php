@@ -25,10 +25,13 @@ class BlogPosts extends Model
 
     public function comments()
     {
+
+        // ? Relasi One To Many
+
         // * Cara kedua menggunakan local query scope pada child relation
         // ! return $this->hasMany(Comment::class, 'blog_post_id', 'id')->latest();
 
-        // * Polymorph One To Many
+        // ? Polymorph One To Many
 
         // * Parameter Pertama Adalah Class Dari Polymorph
         // * Parameter Kedua Nama Polymorph
@@ -51,6 +54,8 @@ class BlogPosts extends Model
 
     public function image()
     {
+        // ? Polymorph One To One
+
         // * Parameter Pertama Adalah Class Dari Polymorph
         // * Parameter Kedua Nama Polymorph
         // * Parameter Ketiga Adalah Nama column type polymorph
@@ -64,6 +69,8 @@ class BlogPosts extends Model
 
     public function tags()
     {
+        // ? Relasi Many To Many
+
         // * Parameter Pertama Adalah Class Terkait
         // * Parameter Kedua Adalah Nama Table Pivot
         // * Parameter Ketiga Adalah Key Kita Disana, Sebagai Contoh Karena Ini Di Model BlogPost Maka Keynya Adalah blog_post_id
@@ -71,7 +78,20 @@ class BlogPosts extends Model
         // * Parameter Kelima Adalah PrimaryKey Dari Table Kita, Karena Ini Di Table blog_posts maka Primarynya adalah id
         // * Parameter Keenam Adalah PrimaryKey Dari Table Terkait
         // * as('tagged') untuk mengaliaskan pivot
-        return $this->belongsToMany(Tag::class, 'blog_post_tag', 'blog_post_id', 'tag_id', 'id', 'id')->withTimestamps()->as('tagged');
+
+        // ! return $this->belongsToMany(Tag::class, 'blog_post_tag', 'blog_post_id', 'tag_id', 'id', 'id')->withTimestamps()->as('tagged');
+
+        // ? Polymorph Many To Many
+
+        // * Parameter Pertama Adalah Class Yang Akan Dihubungkan
+        // * Parameter Kedua Adalah Nama Morphnya
+        // * Parameter Ketiga Adalah Nama Table Pivotnya
+        // * Parameter Keempat Adalah Nama Column ForeignKey yang terhubung dengan PrimaryKey Di Table Ini
+        // * Parameter Kelima Adalah Nama Column ForeignKey yang terhubung dengan Primary Key Yang Ingin Dituju Case Disini adala Table Tags
+        // * Parameter Keenam Adalah Column Primay Key Dari Parent Dari Table Ini
+        // * Parameter Ketujuh Adalah Column Primay Key Dari Table Tags
+
+        return $this->morphToMany(Tag::class, 'tag_for', 'taggables', 'tag_for_id', 'tag_id', 'id', 'id')->withTimestamps()->as('tagged');
     }
 
     // * Cara membuat local query scopes

@@ -518,4 +518,10 @@
 ? Untuk menstore data ke images php
 * check BlogPostController.php pada method store
 
+// =======================================================================================================================
+
+* Polymorph One To Many 
+
+* Chechk Relasi Model Antara Comment Dengan BlogPost Atau Comment Dengan User
+
 */
