@@ -12,14 +12,14 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
-use App\Tag;
 use App\Image;
+use App\Traits\Taggable;
 use Illuminate\Support\Facades\Storage;
 
 class BlogPosts extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = ['title', 'content', 'user_id'];
 
@@ -63,35 +63,6 @@ class BlogPosts extends Model
         // * Parameter Kelima adalah primary key
 
         return $this->morphOne(Image::class, 'image_for', 'image_for_type', 'image_for_id', 'id');
-    }
-
-    // * Cara Instansiasi Model Many To Many
-
-    public function tags()
-    {
-        // ? Relasi Many To Many
-
-        // * Parameter Pertama Adalah Class Terkait
-        // * Parameter Kedua Adalah Nama Table Pivot
-        // * Parameter Ketiga Adalah Key Kita Disana, Sebagai Contoh Karena Ini Di Model BlogPost Maka Keynya Adalah blog_post_id
-        // * Parameter Keempat Adalah foregin key yang lain yang terhubung juga
-        // * Parameter Kelima Adalah PrimaryKey Dari Table Kita, Karena Ini Di Table blog_posts maka Primarynya adalah id
-        // * Parameter Keenam Adalah PrimaryKey Dari Table Terkait
-        // * as('tagged') untuk mengaliaskan pivot
-
-        // ! return $this->belongsToMany(Tag::class, 'blog_post_tag', 'blog_post_id', 'tag_id', 'id', 'id')->withTimestamps()->as('tagged');
-
-        // ? Polymorph Many To Many
-
-        // * Parameter Pertama Adalah Class Yang Akan Dihubungkan
-        // * Parameter Kedua Adalah Nama Morphnya
-        // * Parameter Ketiga Adalah Nama Table Pivotnya
-        // * Parameter Keempat Adalah Nama Column ForeignKey yang terhubung dengan PrimaryKey Di Table Ini
-        // * Parameter Kelima Adalah Nama Column ForeignKey yang terhubung dengan Primary Key Yang Ingin Dituju Case Disini adala Table Tags
-        // * Parameter Keenam Adalah Column Primay Key Dari Parent Dari Table Ini
-        // * Parameter Ketujuh Adalah Column Primay Key Dari Table Tags
-
-        return $this->morphToMany(Tag::class, 'tag_for', 'taggables', 'tag_for_id', 'tag_id', 'id', 'id')->withTimestamps()->as('tagged');
     }
 
     // * Cara membuat local query scopes
@@ -171,8 +142,11 @@ class BlogPosts extends Model
                 $logAktivity->save();
             }
 
-            Storage::disk('public')->delete($blogpost->image->path);
-            $blogpost->image()->delete();
+            if (isset($blogpost->image)) {
+                Storage::disk('public')->delete($blogpost->image->path);
+                $blogpost->image()->delete();
+            }
+
             $blogpost->comments()->delete();
         });
 

@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\LogAktivity;
+use App\Traits\Taggable;
 
 class Comment extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = ['content', 'blog_post_id', 'user_id'];
 

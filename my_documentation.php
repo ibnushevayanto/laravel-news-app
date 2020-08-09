@@ -524,4 +524,10 @@
 
 * Chechk Relasi Model Antara Comment Dengan BlogPost Atau Comment Dengan User
 
+// =======================================================================================================================
+
+* Traits
+
+? Apa Itu Traits Konsepnya Seperti Extend Dalam Php Agar Kode Dapat Terorganisir Dengan Baik
+
 */
