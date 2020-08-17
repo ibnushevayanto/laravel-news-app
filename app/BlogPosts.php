@@ -23,6 +23,11 @@ class BlogPosts extends Model
 
     protected $fillable = ['title', 'content', 'user_id'];
 
+    // * Protected Hidden Agar Suatu Column Tidak Tampil
+    // * Hidden Tidak Akan Mempengaruhi Site Yang Dibuat Menggunakan Laravel
+    protected $hidden = ['deleted_at', 'user_id', 'created_at', 'updated_at'];
+
+
     public function comments()
     {
 
@@ -31,13 +36,14 @@ class BlogPosts extends Model
         // * Cara kedua menggunakan local query scope pada child relation
         // ! return $this->hasMany(Comment::class, 'blog_post_id', 'id')->latest();
 
-        // ? Polymorph One To Many
-
-        // * Parameter Pertama Adalah Class Dari Polymorph
-        // * Parameter Kedua Nama Polymorph
-        // * Parameter Ketiga Adalah Nama column type polymorph
-        // * Parameter Keempat Adalah Nama column ID Polymorph
-        // * Parameter Kelima adalah primary key
+        /* 
+        ? Polymorph One To Many
+        * Parameter Pertama Adalah Class Dari Polymorph
+        * Parameter Kedua Nama Polymorph
+        * Parameter Ketiga Adalah Nama column type polymorph
+        * Parameter Keempat Adalah Nama column ID Polymorph
+        * Parameter Kelima adalah primary key
+        */
 
         return $this->morphMany(Comment::class, 'comment_for', 'comment_for_type', 'comment_for_id', 'id')->latest();
     }
@@ -54,13 +60,14 @@ class BlogPosts extends Model
 
     public function image()
     {
-        // ? Polymorph One To One
-
-        // * Parameter Pertama Adalah Class Dari Polymorph
-        // * Parameter Kedua Nama Polymorph
-        // * Parameter Ketiga Adalah Nama column type polymorph
-        // * Parameter Keempat Adalah Nama column ID Polymorph
-        // * Parameter Kelima adalah primary key
+        /* 
+        ? Polymorph One To One
+        * Parameter Pertama Adalah Class Dari Polymorph
+        * Parameter Kedua Nama Polymorph
+        * Parameter Ketiga Adalah Nama column type polymorph
+        * Parameter Keempat Adalah Nama column ID Polymorph
+        * Parameter Kelima adalah primary key
+        */
 
         return $this->morphOne(Image::class, 'image_for', 'image_for_type', 'image_for_id', 'id');
     }

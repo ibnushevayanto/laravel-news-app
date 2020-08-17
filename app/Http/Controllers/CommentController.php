@@ -7,13 +7,26 @@ use App\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\Comment as CommentResource;
+use Illuminate\Support\Carbon;
 
 class CommentController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth');
+        setlocale(LC_TIME, 'id_ID');
+        Carbon::setLocale('id');
+        $this->middleware('auth')->only(['store', 'edit', 'update', 'destroy']);
+    }
+
+    public function index(BlogPosts $blogpost)
+    {
+
+        // * Mendapatkan Semua Data BlogPost
+        $data = $blogpost->comments()->with('user')->get();
+
+        return CommentResource::collection($data);
     }
 
     /**

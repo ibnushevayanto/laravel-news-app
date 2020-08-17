@@ -530,4 +530,15 @@
 
 ? Apa Itu Traits Konsepnya Seperti Extend Dalam Php Agar Kode Dapat Terorganisir Dengan Baik
 
+// =======================================================================================================================
+
+* Laravel API
+
+* Membutuhkan resources untuk menapilkan response
+
+* Cara membuat response api check pada CommentController function index 
+* dan resources nya pada App/Resources/Comment
+
+// =======================================================================================================================
+
 */

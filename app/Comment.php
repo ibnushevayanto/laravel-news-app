@@ -18,6 +18,7 @@ class Comment extends Model
     use SoftDeletes, Taggable;
 
     protected $fillable = ['content', 'blog_post_id', 'user_id'];
+    protected $hidden = ['deleted_at', 'user_id', 'comment_for_type', 'created_at', 'updated_at', 'comment_for_id'];
 
     /*
         ? Nama Function Sesuaikan Dengan ForeignKey | Example Pada Nama FUnction Dibawah Ini blogPost = blog_post_id |

@@ -9,6 +9,7 @@ use App\Tag;
  */
 trait Taggable
 {
+
     // * Membuat Function Yang Terhubung Dengan Event Pada Model
     protected static function bootTaggable()
     {
