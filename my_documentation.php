@@ -534,10 +534,14 @@
 
 * Laravel API
 
+? Resource
+
 * Membutuhkan resources untuk menapilkan response
 
 * Cara membuat response api check pada CommentController function index 
 * dan resources nya pada App/Resources/Comment
+
+? Cara agar resource tidak menapilkan response default check pada AppServiceProvider
 
 // =======================================================================================================================
 

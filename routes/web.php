@@ -46,6 +46,8 @@ Route::resource('user.comment', 'UserComment')->only(['store']);
 Auth::routes();
 
 // * Mengamankan Route Menggunakan Gate
+// * can:page.secret
+// * page.secret adalah nama dari gate
 Route::get('secret', 'PageController@secret')->name('secret')->middleware('can:page.secret');
 
 Route::get('blogpost/tag/{tag_id}', 'BlogPostTagController@index')->name('blogpost.tags.index');

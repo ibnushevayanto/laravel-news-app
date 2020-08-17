@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Http\ViewComposers\ActivityComposer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Resources\Comment as CommentResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,16 @@ class AppServiceProvider extends ServiceProvider
 
         // * Jika ingin berlaku pada semua views
         // ! view()->composer('*', ActivityComposer::class);
+
+
+
+        // * Cara agar tidak memunculkan default response pada resource
+
+        // ? Jika Ingin Satu Resource Aja
+        // ! CommentResource::withoutWrapping();
+
+        // ? Jika Ingin Semua Resource
+        JsonResource::withoutWrapping();
     }
 
     /**
