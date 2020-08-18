@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 * silahkan check php artisan route:list
 */
 
-// * Diberi namespace agar tidak tertukar dengan controller lainnya
+// * Diberi namespace agar tidak tertukar dengan controller lainnya dan langsung mengarah ke direktori controllernya
 // * Sesuia direktori folder
 Route::prefix('v1')->name('api.v1.')->namespace('Api\V1')->group(function () {
     Route::get('/status', function () {
@@ -34,7 +34,7 @@ Route::prefix('v1')->name('api.v1.')->namespace('Api\V1')->group(function () {
     Route::apiResource('blogpost.comment', 'PostCommentController');
 });
 
-Route::prefix('v2')->name('api.v2.')->group(function () {
+Route::prefix('v2')->name('api.v2.')->namespace('Api\V2')->group(function () {
     Route::get('/status', function () {
         return response()->json(['status' => true]);
     })->name('status');

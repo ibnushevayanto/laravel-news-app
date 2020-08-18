@@ -543,6 +543,10 @@
 
 ? Cara agar resource tidak menapilkan response default check pada AppServiceProvider
 
+? Cara membuat route api check pada api.php
+
+? Cara agar response pada resource tidak default data check pada AuthServiceProvider.php
+
 // =======================================================================================================================
 
 */
