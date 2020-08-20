@@ -43,8 +43,17 @@ return [
 
         'api' => [
             'driver' => 'token',
+            // * Nama Tabel
             'provider' => 'users',
             'hash' => false,
+            // * Parameter Tambahan
+            // ? untuk parameter authentication pada url defaultnya adalah api_token
+            // ? example : www.blablabla.com?api_token=kaslaklsklaklaskla
+            // ! 'input_key' => 'api_token'
+
+            // ? untuk mendapatkan column database dari api keynya
+            // ? defaultnya adalah api_token
+            // ! 'storage_key' => 'api_token'
         ],
     ],
 

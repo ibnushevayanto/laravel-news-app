@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\BlogPost;
 use App\BlogPosts;
+use App\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class PostCommentController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth:api')->only(['store']);
         setlocale(LC_TIME, 'id_ID');
         Carbon::setLocale('id');
         // $this->middleware('auth')->only(['store', 'edit', 'update', 'destroy']);
@@ -49,7 +51,11 @@ class PostCommentController extends Controller
         $validatedData = $request->validated();
         $validatedData['user_id'] = Auth::id();
 
-        $blogpost->comments()->create($validatedData);
+        $this->authorize(Comment::class);
+
+        $komentar = $blogpost->comments()->create($validatedData);
+
+        return new CommentResource($komentar);
     }
 
     /**
@@ -58,9 +64,9 @@ class PostCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BlogPosts $blogpost, Comment $comment)
     {
-        //
+        return new CommentResource($comment);
     }
 
     /**
