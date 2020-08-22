@@ -32,12 +32,8 @@ Route::prefix('v1')->name('api.v1.')->namespace('Api\V1')->group(function () {
 
     // ! php artisan make:controller Api/V1/PostCommentController --api
     Route::apiResource('blogpost.comment', 'PostCommentController');
-});
-
-Route::prefix('v2')->name('api.v2.')->namespace('Api\V2')->group(function () {
-    Route::get('/status', function () {
-        return response()->json(['status' => true]);
-    })->name('status');
+    Route::apiResource('tag', 'TagController');
+    Route::apiResource('blogpost', 'BlogPostController');
 });
 
 Route::fallback(function () {
