@@ -33,7 +33,7 @@ Route::prefix('v1')->name('api.v1.')->namespace('Api\V1')->group(function () {
     // ! php artisan make:controller Api/V1/PostCommentController --api
     Route::apiResource('blogpost.comment', 'PostCommentController');
     Route::apiResource('tag', 'TagController');
-    Route::apiResource('blogpost', 'BlogPostController');
+    Route::get('blogpost/{tag?}', 'BlogPostController@getBlogPost')->name('getBlogPost');
 });
 
 Route::fallback(function () {
