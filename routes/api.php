@@ -34,6 +34,7 @@ Route::prefix('v1')->name('api.v1.')->namespace('Api\V1')->group(function () {
     Route::apiResource('blogpost.comment', 'PostCommentController');
     Route::apiResource('tag', 'TagController');
     Route::get('blogpost/{tag?}', 'BlogPostController@getBlogPost')->name('getBlogPost');
+    Route::post('login', 'AuthenticationUserController@login')->name('loginApi');
 });
 
 Route::fallback(function () {
